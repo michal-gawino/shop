@@ -10,8 +10,14 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>1.5.4.RELEASE</version>
+        <version>1.5.9.RELEASE</version>
     </parent>
+    <properties>
+        <start-class>com.michal.Application</start-class>
+        <hibernate.version>5.3.7.Final</hibernate.version>
+        <maven.compiler.source>1.8</maven.compiler.source>
+        <maven.compiler.target>1.8</maven.compiler.target>
+    </properties>
     <dependencies>
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -20,7 +26,7 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-security</artifactId>
-            <version>1.5.4.RELEASE</version>
+            <version>1.5.2.RELEASE</version>
         </dependency>
         <dependency>
             <groupId>org.apache.xmlgraphics</groupId>
@@ -51,9 +57,9 @@
             <version>3.16</version>
         </dependency>
         <dependency>
-            <groupId>postgresql</groupId>
+            <groupId>org.postgresql</groupId>
             <artifactId>postgresql</artifactId>
-            <version>9.1-901.jdbc4</version>
+            <version>42.2.5</version>
         </dependency>
         <dependency>
             <groupId>xalan</groupId>
@@ -126,8 +132,4 @@
             </plugin>
         </plugins>
     </build>
-    <properties>
-        <start-class>com.michal.Application</start-class>
-    </properties>
-
 </project>

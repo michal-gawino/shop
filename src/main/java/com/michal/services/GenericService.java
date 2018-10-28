@@ -4,6 +4,7 @@ package com.michal.services;
 import org.springframework.data.repository.PagingAndSortingRepository;
 
 import java.io.Serializable;
+import java.util.List;
 
 public interface GenericService<T, ID extends Serializable>  {
 
@@ -15,8 +16,8 @@ public interface GenericService<T, ID extends Serializable>  {
         return getRepository().findOne(id);
     }
 
-    default Iterable<T> findAll() {
-        return getRepository().findAll();
+    default List<T> findAll() {
+        return (List<T>) getRepository().findAll();
     }
 
     default void delete(T entity) {
@@ -24,4 +25,5 @@ public interface GenericService<T, ID extends Serializable>  {
     }
 
     PagingAndSortingRepository<T, ID> getRepository();
+
 }

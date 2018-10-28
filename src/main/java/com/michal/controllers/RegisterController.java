@@ -1,6 +1,7 @@
 package com.michal.controllers;
 
 import com.michal.entities.User;
+import com.michal.enumerated.UserRole;
 import com.michal.impl.UserServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -16,15 +17,16 @@ import java.util.Map;
 class RegisterController {
 
     @Autowired
-    BCryptPasswordEncoder encoder;
+    private BCryptPasswordEncoder encoder;
+
+    @Autowired
+    private UserServiceImpl userService;
 
     @GetMapping
     public String register() {
         return "register";
     }
 
-    @Autowired
-    UserServiceImpl userService;
 
     @PostMapping
     public String create(User user, Model model, RedirectAttributes redirectAttrs){
@@ -34,6 +36,7 @@ class RegisterController {
             return "register";
         }else{
             user.setPassword(encoder.encode(user.getPassword()));
+            user.setRole(UserRole.CUSTOMER);
             userService.save(user);
             redirectAttrs.addFlashAttribute("success", "Registration successful");
         }

@@ -1,28 +1,19 @@
 package com.michal.entities;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import org.hibernate.annotations.Cascade;
-import org.hibernate.annotations.CascadeType;
+import com.michal.enumerated.UserRole;
 
-import java.util.LinkedList;
-import java.util.List;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
+import javax.persistence.*;
+
 import static javax.persistence.GenerationType.IDENTITY;
-import javax.persistence.Id;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
 
 @Entity
 @Table(name = "`user`")
-public class User implements java.io.Serializable {
+public class User extends Auditor{
 
     @Id
     @GeneratedValue(strategy = IDENTITY)
-    private Integer id;
+    private Long id;
 
     private String name;
 
@@ -34,6 +25,9 @@ public class User implements java.io.Serializable {
     @JsonIgnore
     private String password;
 
+    @Enumerated(EnumType.STRING)
+    UserRole role;
+
     public User() {
     }
 
@@ -44,11 +38,11 @@ public class User implements java.io.Serializable {
         this.password = password;
     }
 
-    public Integer getId() {
-        return this.id;
+    public Long getId() {
+        return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -84,4 +78,11 @@ public class User implements java.io.Serializable {
         this.password = password;
     }
 
+    public UserRole getRole() {
+        return role;
+    }
+
+    public void setRole(UserRole role) {
+        this.role = role;
+    }
 }
