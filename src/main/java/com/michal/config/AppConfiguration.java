@@ -17,10 +17,11 @@ public class AppConfiguration {
 
     @Bean
     public ViewResolver internalResourceViewResolver() {
-        InternalResourceViewResolver bean = new InternalResourceViewResolver();
-        bean.setPrefix("/WEB-INF/jsp/");
-        bean.setSuffix(".jsp");
-        return bean;
+        InternalResourceViewResolver viewResolver = new InternalResourceViewResolver();
+        viewResolver.setPrefix("/WEB-INF/jsp/");
+        viewResolver.setSuffix(".jsp");
+        viewResolver.setExposedContextBeanNames("fileManager");
+        return viewResolver;
     }
 
     @Bean
@@ -29,7 +30,7 @@ public class AppConfiguration {
     }
 
     @Bean
-    public BCryptPasswordEncoder endcoder(){
+    public BCryptPasswordEncoder encoder(){
         return new BCryptPasswordEncoder();
     }
 

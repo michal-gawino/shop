@@ -34,6 +34,9 @@
                     </c:when>
                     <c:otherwise>
                 <li>
+                    <a href="category"><i class="fas fa-th-list"></i> Categories</a>
+                </li>
+                <li>
                     <a href="logout"><i class="fas fa-sign-out-alt"></i> Log out</a>
                 </li>
                     </c:otherwise>
