@@ -2,7 +2,6 @@ package com.michal.controllers;
 
 import com.michal.entities.Category;
 import com.michal.impl.CategoryServiceImpl;
-import com.michal.services.CategoryService;
 import com.michal.util.FileManager;
 import org.apache.commons.io.FileUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,9 +25,15 @@ public class CategoryController {
     private FileManager fileManager;
 
     @GetMapping
-    public String getCategoryView(Model model) throws IOException {
+    public String getCategoryView(Model model) {
         model.addAttribute("categories", categoryService.findAll());
         return "category";
+    }
+
+    @GetMapping(value = "/{id}/products")
+    public String getCategoryProductsView(@PathVariable("id") Category category, Model model) {
+        model.addAttribute("products", category.getProducts());
+        return "product";
     }
 
     @PostMapping
@@ -37,7 +42,7 @@ public class CategoryController {
         try{
             img = ImageIO.read(image.getInputStream());
         } catch (IOException e) {
-
+            //set error
         }
         if(img != null){
             category.setFilename(image.getOriginalFilename());

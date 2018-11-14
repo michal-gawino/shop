@@ -36,6 +36,11 @@
                 <li>
                     <a href="category"><i class="fas fa-th-list"></i> Categories</a>
                 </li>
+                <c:if test="${user.role eq 'ADMIN'}">
+					<li>
+                        <a href="admin"><i class="fas fa-toolbox"></i> Admin panel</a>
+                    </li>
+                </c:if>
                 <li>
                     <a href="logout"><i class="fas fa-sign-out-alt"></i> Log out</a>
                 </li>

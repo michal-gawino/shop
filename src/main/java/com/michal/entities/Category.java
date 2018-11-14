@@ -1,8 +1,8 @@
 package com.michal.entities;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.*;
+import java.util.List;
+
 import static javax.persistence.GenerationType.IDENTITY;
 
 @Entity
@@ -15,6 +15,9 @@ public class Category extends Auditor {
     private String name;
 
     private String filename;
+
+    @OneToMany(mappedBy = "category", cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
+    private List<Product> products;
 
     public Category() {
     }
@@ -46,5 +49,13 @@ public class Category extends Auditor {
 
     public void setFilename(String filename) {
         this.filename = filename;
+    }
+
+    public List<Product> getProducts() {
+        return products;
+    }
+
+    public void setProducts(List<Product> products) {
+        this.products = products;
     }
 }
