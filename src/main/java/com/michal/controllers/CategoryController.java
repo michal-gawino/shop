@@ -13,6 +13,9 @@ import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 
 @Controller
 @RequestMapping(value = "/category")
@@ -37,13 +40,8 @@ public class CategoryController {
     }
 
     @PostMapping
-    public String create(Category category, MultipartFile image, Model model, @RequestHeader(value = "referer", required = false) String referrer) throws IOException {
-        BufferedImage img = null;
-        try{
-            img = ImageIO.read(image.getInputStream());
-        } catch (IOException e) {
-            //set error
-        }
+    public String create(Category category, MultipartFile image, Model model) throws IOException {
+        BufferedImage img = ImageIO.read(image.getInputStream());
         if(img != null){
             category.setFilename(image.getOriginalFilename());
             Category c = categoryService.save(category);
@@ -51,14 +49,34 @@ public class CategoryController {
             File imgDest = new File(categoryDir, image.getOriginalFilename());
             image.transferTo(imgDest);
         }
-        return "redirect:/" + referrer;
+        return "redirect:/category";
+    }
+
+    @PutMapping("/{id}")
+    public String update(@PathVariable("id") Category category, Category newCategory, MultipartFile image) throws IOException {
+        if(newCategory.getName() != null){
+            category.setName(newCategory.getName());
+        }
+        if(image != null){
+            BufferedImage img = ImageIO.read(image.getInputStream());
+            if(img != null){
+                Path categoryImage = fileManager.getCategoryImagePath(category);
+                Files.delete(categoryImage);
+                File imgDest = Paths.get(categoryImage.getParent().toString(), image.getOriginalFilename()).toFile();
+                image.transferTo(imgDest);
+                category.setFilename(image.getOriginalFilename());
+            }
+        }
+        categoryService.save(category);
+        return "redirect:/category";
     }
 
     @DeleteMapping(value = "/{idi}")
-    public void delete(@PathVariable("idi") Category category) throws IOException {
+    public String delete(@PathVariable("idi") Category category) throws IOException {
         if(category != null){
             categoryService.delete(category);
             FileUtils.deleteDirectory(fileManager.getOrCreateCategoryDirectory(category));
         }
+        return "redirect:/category";
     }
 }

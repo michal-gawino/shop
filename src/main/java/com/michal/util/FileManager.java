@@ -45,4 +45,8 @@ public class FileManager {
         byte[] file = Files.readAllBytes(path);
         return encoder.encode(file);
     }
+
+    public Path getCategoryImagePath(Category c){
+        return Paths.get(ROOT_DIRECTORY, CATEGORY_DIRECTORY, c.getId().toString(), c.getFilename());
+    }
 }

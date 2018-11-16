@@ -1,5 +1,6 @@
 package com.michal.controllers;
 
+import com.michal.impl.CategoryServiceImpl;
 import com.michal.impl.UserServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -14,6 +15,9 @@ public class AdminController {
 
     @Autowired
     private UserServiceImpl userService;
+
+    @Autowired
+    private CategoryServiceImpl categoryService;
 
     @GetMapping("/users")
     public String getUsersView(Model model){

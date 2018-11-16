@@ -43,9 +43,6 @@
                                         <a href="/admin/users">Users</a>
                                     </li>
                                     <li>
-                                        <a href="/admin/category">Categories</a>
-                                    </li>
-                                    <li>
                                         <a href="/admin/product">Products</a>
                                     </li>
                                 </ul>
