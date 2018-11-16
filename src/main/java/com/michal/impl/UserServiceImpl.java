@@ -7,6 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class UserServiceImpl implements UserService {
 
@@ -21,5 +23,10 @@ public class UserServiceImpl implements UserService {
     @Override
     public PagingAndSortingRepository<User, Long> getRepository() {
         return userRepository;
+    }
+
+    @Override
+    public List<User> getAll() {
+        return userRepository.getAll();
     }
 }

@@ -37,7 +37,7 @@ public class CategoryController {
     }
 
     @PostMapping
-    public String create(Category category, MultipartFile image, Model model) throws IOException {
+    public String create(Category category, MultipartFile image, Model model, @RequestHeader(value = "referer", required = false) String referrer) throws IOException {
         BufferedImage img = null;
         try{
             img = ImageIO.read(image.getInputStream());
@@ -51,7 +51,7 @@ public class CategoryController {
             File imgDest = new File(categoryDir, image.getOriginalFilename());
             image.transferTo(imgDest);
         }
-        return "redirect:/category";
+        return "redirect:/" + referrer;
     }
 
     @DeleteMapping(value = "/{idi}")

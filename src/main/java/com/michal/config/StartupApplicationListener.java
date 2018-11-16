@@ -20,7 +20,6 @@ public class StartupApplicationListener implements ApplicationListener<ContextRe
 
     @Override
     public void onApplicationEvent(ContextRefreshedEvent event) {
-        System.out.println(Arrays.asList(applicationContext.getBeanDefinitionNames()));
         fileManager.getOrCreateRootDirectory();
     }
 }

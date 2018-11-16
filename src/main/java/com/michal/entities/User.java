@@ -1,6 +1,6 @@
 package com.michal.entities;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.michal.enumerated.UserRole;
 
 import javax.persistence.*;
@@ -19,10 +19,9 @@ public class User extends Auditor{
 
     private String surname;
 
-    @JsonIgnore
     private String login;
 
-    @JsonIgnore
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private String password;
 
     @Enumerated(EnumType.STRING)

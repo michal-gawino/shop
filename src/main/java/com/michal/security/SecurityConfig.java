@@ -1,5 +1,6 @@
 package com.michal.security;
 
+import com.michal.enumerated.UserRole;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -30,6 +31,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http
                 .authorizeRequests()
                 .antMatchers("/login/**", "/register/**").permitAll()
+                .antMatchers("/category/**", "/products/**").hasAnyAuthority(UserRole.CUSTOMER.name(), UserRole.ADMIN.name())
+                .antMatchers("/admin/**").hasAnyAuthority(UserRole.ADMIN.name())
                 .anyRequest().authenticated()
                 .and()
                 .formLogin()

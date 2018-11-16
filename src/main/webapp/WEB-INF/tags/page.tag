@@ -13,6 +13,8 @@
 		<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.2/css/all.css" integrity="sha384-/rXc/GQVaYpyDdyxK+ecHPVYJSN9bmVFBvjA/9eOB+pb3F2w2N6fc5qB9Ew5yIns" crossorigin="anonymous">
         <link href="<c:url value="/css/login_styles.css"  />" rel="stylesheet" type="text/css">
         <link href="<c:url value="/css/sidebar.css"  />" rel="stylesheet" type="text/css">
+        <script src="<c:url value="/js/modalController.js"/>"></script>
+
     </head>
     <body class="homepage">
     <div id="wrapper" class="toggled">
@@ -26,23 +28,34 @@
                 <c:choose>
                     <c:when test="${empty sessionScope.user}">
                 <li>
-                    <a href="login"><i class="fas fa-sign-in-alt"></i> Log in</a>
+                    <a href="/login"><i class="fas fa-sign-in-alt"></i> Log in</a>
                 </li>
                 <li>
-                    <a href="register"><i class="fas fa-user-plus"></i> Sign up</a>
+                    <a href="/register"><i class="fas fa-user-plus"></i> Sign up</a>
                 </li>
                     </c:when>
                     <c:otherwise>
-                <li>
-                    <a href="category"><i class="fas fa-th-list"></i> Categories</a>
-                </li>
                 <c:if test="${user.role eq 'ADMIN'}">
-					<li>
-                        <a href="admin"><i class="fas fa-toolbox"></i> Admin panel</a>
-                    </li>
+                 <li>
+                       <a href="#admin" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle"><i class="fas fa-toolbox"></i> Admin panel</a>
+                                <ul class="collapse list-unstyled" id="admin">
+                                    <li>
+                                        <a href="/admin/users">Users</a>
+                                    </li>
+                                    <li>
+                                        <a href="/admin/category">Categories</a>
+                                    </li>
+                                    <li>
+                                        <a href="/admin/product">Products</a>
+                                    </li>
+                                </ul>
+                            </li>
                 </c:if>
                 <li>
-                    <a href="logout"><i class="fas fa-sign-out-alt"></i> Log out</a>
+                    <a href="/category"><i class="fas fa-th-list"></i> Categories</a>
+                </li>
+                <li>
+                    <a href="/logout"><i class="fas fa-sign-out-alt"></i> Log out</a>
                 </li>
                     </c:otherwise>
                 </c:choose>
