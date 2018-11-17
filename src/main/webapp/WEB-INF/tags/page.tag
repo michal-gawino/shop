@@ -48,6 +48,9 @@
                             </li>
                 </c:if>
                 <li>
+                    <a href="/cart"><i class="fas fa-shopping-cart"></i>  ${cart.products.size()} My Cart</a>
+                </li>
+                <li>
                     <a href="/category"><i class="fas fa-th-list"></i> Categories</a>
                 </li>
                 <li>

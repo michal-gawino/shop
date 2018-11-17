@@ -1,6 +1,7 @@
 package com.michal.security;
 
 import com.michal.entities.User;
+import com.michal.util.Cart;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler;
 import org.springframework.stereotype.Component;
@@ -17,6 +18,9 @@ public class LoginSuccessHandler extends SimpleUrlAuthenticationSuccessHandler {
         CustomUserDetails userDetails = (CustomUserDetails) authentication.getPrincipal();
         User user = userDetails.getUser();
         request.getSession().setAttribute("user", user);
+        if(request.getSession().getAttribute("cart") == null){
+            request.getSession().setAttribute("cart", new Cart());
+        }
         response.sendRedirect(request.getContextPath());
     }
 }
