@@ -54,20 +54,22 @@ public class CategoryController {
 
     @PutMapping("/{id}")
     public String update(@PathVariable("id") Category category, Category newCategory, MultipartFile image) throws IOException {
-        if(newCategory.getName() != null){
-            category.setName(newCategory.getName());
-        }
-        if(image != null){
-            BufferedImage img = ImageIO.read(image.getInputStream());
-            if(img != null){
-                Path categoryImage = fileManager.getCategoryImagePath(category);
-                Files.delete(categoryImage);
-                File imgDest = Paths.get(categoryImage.getParent().toString(), image.getOriginalFilename()).toFile();
-                image.transferTo(imgDest);
-                category.setFilename(image.getOriginalFilename());
+        if(category != null){
+            if(newCategory.getName() != null){
+                category.setName(newCategory.getName());
             }
+            if(image != null){
+                BufferedImage img = ImageIO.read(image.getInputStream());
+                if(img != null){
+                    Path categoryImage = fileManager.getCategoryImagePath(category);
+                    Files.delete(categoryImage);
+                    File imgDest = Paths.get(categoryImage.getParent().toString(), image.getOriginalFilename()).toFile();
+                    image.transferTo(imgDest);
+                    category.setFilename(image.getOriginalFilename());
+                }
+            }
+            categoryService.save(category);
         }
-        categoryService.save(category);
         return "redirect:/category";
     }
 

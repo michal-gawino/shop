@@ -5,20 +5,30 @@
 <t:page>
    <div class="container">
     <div class="row">
-    <c:forEach items="${products}" var="product">
-         <div class="col-sm-4">
-                <div class="card my-1">
-                  <a href="/category/${category.id}/products">
-                    <img class="card-img-top" src="data:image/jpg;base64,<c:out value='${fileManager.getBase64CategoryImage(category)}'/>" />
-                   </a>
-                  <div class="card-body">
-                    <h5 class="card-title">${product.brand}</h5>
-                     <p class="card-text">${product.name}</p>
-                     <a href="/cart/add_product" class="btn btn-success">Add to cart</a> ${product.price}
-                  </div>
-                </div>
-              </div>
-    </c:forEach>
+    <c:choose>
+       <c:when test="${products.isEmpty()}">
+       <h2>Category has no products</h2>
+        </c:when>
+       <c:otherwise>
+        <c:forEach items="${products}" var="product">
+                <div class="col-sm-4">
+                       <div class="card my-1">
+                          <img class="card-img-top" src="data:image/jpg;base64,<c:out value='${fileManager.getBase64Image(fileManager.getProductImagePath(product))}'/>" />
+                         <div class="card-body">
+                           <h5 class="card-title">${product.brand}</h5>
+                            <p class="card-text">${product.name}</p>
+                            <form method="POST" action="/cart/${product.id}">
+                             <div class="btn-group" role="group">
+                               <button type="button" class="btn btn-secondary btn-success">Add to cart</button>
+                               <button type="button" class="btn btn-secondary btn-dark">${product.price} $</button>
+                             </div>
+                             </form>
+                         </div>
+                       </div>
+                     </div>
+           </c:forEach>
+       </c:otherwise>
+       </c:choose>
     </div>
 </div>
 </t:page>

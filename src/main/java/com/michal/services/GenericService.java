@@ -24,6 +24,11 @@ public interface GenericService<T, ID extends Serializable>  {
         getRepository().delete(entity);
     }
 
+    default void deleteById(ID id){getRepository().delete(id);}
+
+    default void delete(List<ID> ids) {ids.stream().filter(getRepository()::exists).forEach(getRepository()::delete);}
+
     PagingAndSortingRepository<T, ID> getRepository();
+
 
 }

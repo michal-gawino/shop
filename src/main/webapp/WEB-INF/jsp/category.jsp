@@ -11,7 +11,7 @@
          <div class="col-sm-4">
                 <div class="card my-1">
                   <a href="/category/${category.id}/products">
-                    <img class="card-img-top" src="data:image/jpg;base64,<c:out value='${fileManager.getBase64CategoryImage(category)}'/>" />
+                    <img class="card-img-top" src="data:image/jpg;base64,<c:out value='${fileManager.getBase64Image(fileManager.getCategoryImagePath(category))}'/>" />
                    </a>
                   <div class="card-body">
                     <h5 class="card-title">${category.name}</h5>

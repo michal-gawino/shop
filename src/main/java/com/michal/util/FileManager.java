@@ -1,6 +1,7 @@
 package com.michal.util;
 
 import com.michal.entities.Category;
+import com.michal.entities.Product;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import sun.misc.BASE64Encoder;
@@ -39,14 +40,17 @@ public class FileManager {
         return categoryDir;
     }
 
-    public String getBase64CategoryImage(Category c) throws IOException {
+    public String getBase64Image(Path path) throws IOException {
         BASE64Encoder encoder = new BASE64Encoder();
-        Path path = Paths.get(ROOT_DIRECTORY, CATEGORY_DIRECTORY, c.getId().toString(), c.getFilename());
         byte[] file = Files.readAllBytes(path);
         return encoder.encode(file);
     }
 
     public Path getCategoryImagePath(Category c){
         return Paths.get(ROOT_DIRECTORY, CATEGORY_DIRECTORY, c.getId().toString(), c.getFilename());
+    }
+
+    public Path getProductImagePath(Product p){
+        return Paths.get(ROOT_DIRECTORY, CATEGORY_DIRECTORY, p.getCategory().getId().toString(), PRODUCTS_DIRECTORY, p.getFilename());
     }
 }

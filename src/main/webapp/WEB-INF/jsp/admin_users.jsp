@@ -12,6 +12,7 @@
               ${user_exists}
         </div>
      </c:if>
+     <form:form action="/user" method="DELETE">
               <table class="table table-bordered">
                 <thead>
                   <tr>
@@ -23,7 +24,9 @@
                     <th scope="col">Login</th>
                     <th scope="col">Name</th>
                     <th scope="col">Surname</th>
-                    <th scope="col"></th>
+                    <th scope="col"><button type="submit" data-toggle="tooltip" title="Remove selected users" class="btn btn-danger">
+                                    <i class="far fa-trash-alt"></i>
+                                    </button></th>
                     <th scope="col"></th>
                   </tr>
                 </thead>
@@ -35,19 +38,18 @@
                     <td>${u.name}</td>
                     <td>${u.surname}</td>
                     <td>
-                         <form:form action="/user/${u.id}" method="DELETE">
-                                                                 <button type="submit" class="btn btn-danger">
-                                                                         <i class="far fa-trash-alt"></i>
-                                                                 </button>
-                                                                 </form:form>
+<div class="form-check">
+  <input class="form-check-input" type="checkbox" value="${u.id}" name="usersToDelete">
+</div>
                     </td>
                     <td>                              <button id="userUpdateModal" type="button" class="btn btn-success" data-id="${u.id}" data-name="${u.name}" data-surname="${u.surname}" data-login="${u.login}" data-toggle="modal" data-target="#editUserModal">
-                                                                                                      <i class="far fa-edit"></i>
+                                                                                                      <i class="far fa-edit"> Edit</i>
                                                                                               </button></td>
                   </tr>
               </c:forEach>
                 </tbody>
               </table>
+              </form:form>
 	</div>
 	<div class="modal fade" id="addUserModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
       <div class="modal-dialog modal-dialog-centered" role="document">

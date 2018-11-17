@@ -14,7 +14,6 @@
         <link href="<c:url value="/css/login_styles.css"  />" rel="stylesheet" type="text/css">
         <link href="<c:url value="/css/sidebar.css"  />" rel="stylesheet" type="text/css">
         <script src="<c:url value="/js/modalController.js"/>"></script>
-
     </head>
     <body class="homepage">
     <div id="wrapper" class="toggled">
@@ -43,7 +42,7 @@
                                         <a href="/admin/users">Users</a>
                                     </li>
                                     <li>
-                                        <a href="/admin/product">Products</a>
+                                        <a href="/admin/products">Products</a>
                                     </li>
                                 </ul>
                             </li>

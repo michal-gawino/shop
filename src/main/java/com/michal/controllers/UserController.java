@@ -9,6 +9,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import java.util.List;
 
 
 @Controller
@@ -34,10 +35,10 @@ public class UserController {
         return "redirect:/admin/users";
     }
 
-    @DeleteMapping("/{id}")
-    public String delete(@PathVariable("id") User user){
-        if(user != null){
-            userService.delete(user);
+    @DeleteMapping
+    public String delete(@RequestParam(value = "usersToDelete", required = false) List<Long> ids){
+        if(ids != null){
+            userService.delete(ids);
         }
         return "redirect:/admin/users";
     }
