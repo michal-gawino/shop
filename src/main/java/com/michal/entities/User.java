@@ -5,6 +5,8 @@ import com.michal.enumerated.UserRole;
 
 import javax.persistence.*;
 
+import java.util.List;
+
 import static javax.persistence.GenerationType.IDENTITY;
 
 @Entity
@@ -26,6 +28,9 @@ public class User extends Auditor{
 
     @Enumerated(EnumType.STRING)
     UserRole role;
+
+    @OneToMany(mappedBy = "user")
+    private List<Order> orders;
 
     public User() {
     }
@@ -83,5 +88,13 @@ public class User extends Auditor{
 
     public void setRole(UserRole role) {
         this.role = role;
+    }
+
+    public List<Order> getOrders() {
+        return orders;
+    }
+
+    public void setOrders(List<Order> orders) {
+        this.orders = orders;
     }
 }

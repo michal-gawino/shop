@@ -1,5 +1,3 @@
-const data = {id : 5}
-
 $(document).on("click", "#addToCartButton", function () {
 	var id = $(this).data('id');
 	$.ajax({

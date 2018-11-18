@@ -29,10 +29,12 @@
                                     </div>
                                 </div>
                             </div>
+                        </div>
                     </c:forEach>
                 </c:otherwise>
             </c:choose>
         </div>
         <div id="snackbar">Item has been added to cart</div>
+
     </div>
 </t:page>
