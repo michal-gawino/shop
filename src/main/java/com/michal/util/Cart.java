@@ -1,7 +1,6 @@
 package com.michal.util;
 
 import com.michal.entities.Product;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -28,5 +27,9 @@ public class Cart {
 
     public List<Product> getProducts() {
         return products;
+    }
+
+    public void clear(){
+        products.clear();
     }
 }

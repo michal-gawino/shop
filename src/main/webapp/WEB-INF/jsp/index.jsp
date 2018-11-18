@@ -6,7 +6,6 @@
     <div class="container">
         <div class="row">
             <h3>You are logged in as ${user.name} ${user.surname}.<h3>
-            <hr>
         </div>
     </div>
 </t:page>

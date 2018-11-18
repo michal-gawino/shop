@@ -22,14 +22,16 @@ public class CartController {
     }
 
     @PostMapping("/{id}")
-    public String addProduct(@PathVariable("id") Product product, Cart cart, @RequestHeader(value = "referer", required = false) final String referrer){
+    public String addProduct(@PathVariable("id") Product product, Cart cart,
+                             @RequestHeader(value = "referer", required = false) final String referrer){
         cart.addProduct(product);
         session.setAttribute("cart", cart);
         return "redirect:"+referrer;
     }
 
     @DeleteMapping("/{id}")
-    public String removeProduct(@PathVariable("id") Product product, Cart cart, @RequestHeader(value = "referer", required = false) final String referrer){
+    public String removeProduct(@PathVariable("id") Product product, Cart cart,
+                                @RequestHeader(value = "referer", required = false) final String referrer){
         cart.removeProduct(product);
         session.setAttribute("cart", cart);
         return "redirect:"+referrer;
