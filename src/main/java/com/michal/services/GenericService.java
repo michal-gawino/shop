@@ -1,6 +1,8 @@
 package com.michal.services;
 
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.repository.PagingAndSortingRepository;
 
 import java.io.Serializable;
@@ -27,6 +29,10 @@ public interface GenericService<T, ID extends Serializable>  {
     default void deleteById(ID id){getRepository().delete(id);}
 
     default void delete(List<ID> ids) {ids.stream().filter(getRepository()::exists).forEach(getRepository()::delete);}
+
+    default Page<T> findAllPaginated(Pageable pageable){
+        return getRepository().findAll(pageable);
+    }
 
     PagingAndSortingRepository<T, ID> getRepository();
 

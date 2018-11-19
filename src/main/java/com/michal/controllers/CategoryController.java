@@ -72,13 +72,4 @@ public class CategoryController {
         }
         return "redirect:/category";
     }
-
-    @DeleteMapping(value = "/{idi}")
-    public String delete(@PathVariable("idi") Category category) throws IOException {
-        if(category != null){
-            categoryService.delete(category);
-            FileUtils.deleteDirectory(fileManager.getOrCreateCategoryDirectory(category));
-        }
-        return "redirect:/category";
-    }
 }

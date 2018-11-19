@@ -6,7 +6,6 @@
 <t:page>
     <div class="container">
         <div class="row">
-
             <c:forEach items="${categories}" var="category">
                 <div class="col-sm-4">
                     <div class="card my-1">
@@ -24,11 +23,6 @@
                                                 data-id="${category.id}" class="btn btn-primary btn-sm">Edit
                                         </button>
 
-                                    </div>
-                                    <div class="col-sm-3">
-                                        <form:form action="/category/${category.id}" method="DELETE">
-                                            <button type="submit" class="btn btn-danger btn-sm">Delete</button>
-                                        </form:form>
                                     </div>
                                 </div>
                             </c:if>

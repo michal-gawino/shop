@@ -5,7 +5,6 @@
 
 <t:page>
     <div class="container">
-        <form:form action="/product" method="DELETE">
             <table class="table table-bordered">
                 <thead>
                 <tr>
@@ -19,29 +18,17 @@
                     <th scope="col">Brand</th>
                     <th scope="col">Price</th>
                     <th scope="col">Category</th>
-                    <th scope="col">
-                        <button type="submit" data-toggle="tooltip" title="Remove selected products"
-                                class="btn btn-danger">
-                            <i class="far fa-trash-alt"></i>
-                        </button>
-                    </th>
                     <th scope="col"></th>
                 </tr>
                 </thead>
                 <tbody>
-                <c:forEach items="${products}" var="product" varStatus="var">
+                <c:forEach items="${productsPage.getContent()}" var="product" varStatus="var">
                     <tr>
                         <th scope="row">${var.index + 1}</th>
                         <td>${product.name}</td>
                         <td>${product.brand}</td>
                         <td>${product.price} $</td>
                         <td>${product.category.name}</td>
-                        <td>
-                            <div class="form-check">
-                                <input class="form-check-input" type="checkbox" value="${product.id}"
-                                       name="productsToDelete">
-                            </div>
-                        </td>
                         <td>
                             <button id="productUpdateModal" type="button" class="btn btn-success"
                                     data-id="${product.id}" data-category="${product.category.id}"
@@ -54,7 +41,41 @@
                 </c:forEach>
                 </tbody>
             </table>
-        </form:form>
+            <c:if test="${!productsPage.getContent().isEmpty()}">
+            <nav aria-label="Page navigation example">
+                          <ul class="pagination justify-content-center">
+                          <c:if test="${productsPage.getNumber() > 1}">
+                            <li class="page-item">
+                              <a class="page-link" href="/admin/products?size=${param.size}&page=1" aria-label="Previous">
+                                <span aria-hidden="true">&laquo;</span>
+                              </a>
+                            </li>
+                            </c:if>
+                            <c:if test="${productsPage.getNumber() > 0}">
+                                                        <li class="page-item">
+                                                          <a class="page-link" href="/admin/products?size=${param.size}&page=${param.page - 1}" aria-label="Previous">
+                                                            <span aria-hidden="true">&lsaquo;</span>
+                                                          </a>
+                                                        </li>
+                                                        </c:if>
+                            <li class="page-item"><a class="page-link" href="#">${productsPage.getNumber() + 1}</a></li>
+                            <c:if test="${productsPage.getTotalPages() - productsPage.getNumber() > 1}">
+                                                                                    <li class="page-item">
+                                                                                      <a class="page-link" href="/admin/products?size=${param.size}&page=${param.page + 1}" aria-label="Previous">
+                                                                                        <span aria-hidden="true">&rsaquo;</span>
+                                                                                      </a>
+                                                                                    </li>
+                                                                                    </c:if>
+                                                        <c:if test="${productsPage.getTotalPages() - productsPage.getNumber() > 2}">
+                                                                                                                <li class="page-item">
+                                                                                                                  <a class="page-link" href="/admin/products?size=${param.size}&page=${productsPage.getTotalPages()}" aria-label="Previous">
+                                                                                                                    <span aria-hidden="true">&raquo;</span>
+                                                                                                                  </a>
+                                                                                                                </li>
+                                                                                                                </c:if>
+                          </ul>
+                        </nav>
+                        </c:if>
     </div>
     <div class="modal fade" id="addProductModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
          aria-hidden="true">
@@ -90,7 +111,7 @@
                         </div>
                         <div class="form-group">
                             <label for="image">Image</label>
-                            <input type="file" class="form-control-file" name="image">
+                            <input type="file" class="form-control-file" name="image" required>
                         </div>
                     </div>
                     <div class="modal-footer">

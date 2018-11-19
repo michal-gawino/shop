@@ -15,7 +15,7 @@ public class Order extends Auditor {
     @ManyToOne
     private User user;
 
-    @OneToOne(cascade = CascadeType.PERSIST)
+    @OneToOne(cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
     private OrderDetails orderDetails;
 
     @ManyToMany

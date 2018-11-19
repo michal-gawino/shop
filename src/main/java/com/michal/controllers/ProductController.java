@@ -12,9 +12,7 @@ import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
+import java.nio.file.*;
 import java.util.List;
 
 @Controller
@@ -28,7 +26,8 @@ public class ProductController {
     private FileManager fileManager;
 
     @PostMapping
-    public String create(Product product, MultipartFile image) throws IOException {
+    public String create(Product product, MultipartFile image,
+                         @RequestHeader(value = "referer", required = false) final String referrer) throws IOException {
         BufferedImage img = ImageIO.read(image.getInputStream());
         if(img!= null){
             product.setFilename(image.getOriginalFilename());
@@ -36,19 +35,13 @@ public class ProductController {
             image.transferTo(imgDest);
         }
         productService.save(product);
-        return "redirect:/admin/products";
-    }
-
-    @DeleteMapping
-    public String delete(@RequestParam(value = "productsToDelete", required = false) List<Long> ids){
-        if(ids != null){
-            productService.delete(ids);
-        }
-        return "redirect:/admin/products";
+        System.out.println(referrer);
+        return "redirect:" + referrer;
     }
 
     @PutMapping("/{id}")
-    public String update(@PathVariable("id") Product product, Product newProduct, MultipartFile image) throws IOException {
+    public String update(@PathVariable("id") Product product, Product newProduct, MultipartFile image,
+                         @RequestHeader(value = "referer", required = false) final String referrer) throws IOException {
         if(product != null){
             if(newProduct.getName() != null){
                 product.setName(newProduct.getName());
@@ -60,6 +53,10 @@ public class ProductController {
                 product.setPrice(newProduct.getPrice());
             }
             if(newProduct.getCategory() != null){
+                Path sourceImage = fileManager.getProductImagePath(product);
+                newProduct.setFilename(product.getFilename());
+                Path dest = fileManager.getProductImagePath(newProduct);
+                Files.move(sourceImage, dest, StandardCopyOption.ATOMIC_MOVE);
                 product.setCategory(newProduct.getCategory());
             }
             if(image != null){
@@ -74,6 +71,6 @@ public class ProductController {
             }
             productService.save(product);
         }
-        return "redirect:/admin/products";
+        return "redirect:" + referrer;
     }
 }

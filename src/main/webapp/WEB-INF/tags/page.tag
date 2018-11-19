@@ -52,10 +52,10 @@
                                     class="fas fa-toolbox"></i> Admin panel</a>
                             <ul class="collapse list-unstyled" id="admin">
                                 <li>
-                                    <a href="/admin/users">Users</a>
+                                    <a href="/admin/users?page=1&size=10">Users</a>
                                 </li>
                                 <li>
-                                    <a href="/admin/products">Products</a>
+                                    <a href="/admin/products?page=1&size=10">Products</a>
                                 </li>
                             </ul>
                         </li>

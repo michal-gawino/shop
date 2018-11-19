@@ -29,7 +29,7 @@ public class User extends Auditor{
     @Enumerated(EnumType.STRING)
     UserRole role;
 
-    @OneToMany(mappedBy = "user")
+    @OneToMany(mappedBy = "user", cascade = CascadeType.REMOVE)
     private List<Order> orders;
 
     public User() {

@@ -23,7 +23,8 @@ public class UserController {
     private BCryptPasswordEncoder encoder;
 
     @PostMapping
-    public String create(User user, Model model, RedirectAttributes redirectAttrs){
+    public String create(User user, Model model, RedirectAttributes redirectAttrs,
+                         @RequestHeader(value = "referer", required = false) final String referrer){
         User u = userService.findByLogin(user.getLogin());
         if(u != null){
             redirectAttrs.addFlashAttribute("user_exists", "User with given login already exists");
@@ -32,19 +33,21 @@ public class UserController {
             user.setRole(UserRole.CUSTOMER);
             userService.save(user);
         }
-        return "redirect:/admin/users";
+        return "redirect:" + referrer;
     }
 
     @DeleteMapping
-    public String delete(@RequestParam(value = "usersToDelete", required = false) List<Long> ids){
+    public String delete(@RequestParam(value = "usersToDelete", required = false) List<Long> ids,
+                         @RequestHeader(value = "referer", required = false) final String referrer){
         if(ids != null){
             userService.delete(ids);
         }
-        return "redirect:/admin/users";
+        return "redirect:" + referrer;
     }
 
     @PutMapping("/{id}")
-    public String update(@PathVariable("id") User user, User newUser){
+    public String update(@PathVariable("id") User user, User newUser,
+                         @RequestHeader(value = "referer", required = false) final String referrer){
         if(user != null){
             if(newUser.getName() != null){
                 user.setName(newUser.getName());
@@ -60,6 +63,6 @@ public class UserController {
             }
             userService.save(user);
         }
-        return "redirect:/admin/users";
+        return "redirect:"+ referrer;
     }
 }
