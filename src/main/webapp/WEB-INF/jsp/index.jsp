@@ -5,7 +5,7 @@
 <t:page>
     <div class="container">
         <div class="row">
-            <h3>You are logged in as ${user.name} ${user.surname}.<h3>
+            <h3>You are logged in as ${sessionScope.user.name} ${sessionScope.user.surname}.<h3>
         </div>
     </div>
 </t:page>

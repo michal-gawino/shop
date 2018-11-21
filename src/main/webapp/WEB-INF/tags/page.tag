@@ -46,7 +46,7 @@
                     </li>
                 </c:when>
                 <c:otherwise>
-                    <c:if test="${user.role eq 'ADMIN'}">
+                    <c:if test="${sessionScope.user.role eq 'ADMIN'}">
                         <li>
                             <a href="#admin" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle"><i
                                     class="fas fa-toolbox"></i> Admin panel</a>
@@ -61,13 +61,19 @@
                         </li>
                     </c:if>
                     <li>
-                        <a href="/cart"><i class="fas fa-shopping-cart"></i> Cart</a>
-                    </li>
-                    <li>
                         <a href="/category"><i class="fas fa-th-list"></i> Categories</a>
                     </li>
                     <li>
+                        <a href="/cart"><i class="fas fa-shopping-cart"></i> Cart</a>
+                    </li>
+                    <li>
                         <a href="/order/details"><i class="fas fa-money-check"></i></i> My orders</a>
+                    </li>
+                    <li>
+                        <a href="/user"><i class="far fa-user"></i></i> Profile</a>
+                    </li>
+                    <li>
+                        <a href="/user/password"><i class="fas fa-key"></i></i> Change password</a>
                     </li>
                     <li>
                         <a href="/logout"><i class="fas fa-sign-out-alt"></i> Log out</a>

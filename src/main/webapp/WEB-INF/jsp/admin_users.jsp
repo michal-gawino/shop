@@ -25,18 +25,18 @@
                     <th scope="col">Name</th>
                     <th scope="col">Surname</th>
                     <th scope="col">
-                    <c:if test="${!users.isEmpty()}">
-                        <button type="submit" data-toggle="tooltip" title="Remove selected users"
-                                class="btn btn-danger">
-                            <i class="far fa-trash-alt"></i>
-                        </button>
-                    </c:if>
+                        <c:if test="${!users.isEmpty()}">
+                            <button type="submit" data-toggle="tooltip" title="Remove selected users"
+                                    class="btn btn-danger">
+                                <i class="far fa-trash-alt"></i>
+                            </button>
+                        </c:if>
                     </th>
                     <th scope="col"></th>
                 </tr>
                 </thead>
                 <tbody>
-                <c:forEach items="${users}" var="u" varStatus="var">
+                <c:forEach items="${usersPage.getContent()}" var="u" varStatus="var">
                     <tr>
                         <th scope="row">${var.index + 1}</th>
                         <td>${u.login}</td>
@@ -44,7 +44,7 @@
                         <td>${u.surname}</td>
                         <td>
                             <div class="form-check">
-                                <input class="form-check-input" type="checkbox" value="${u.id}" name="usersToDelete">
+                                <input class="form-check-input" type="checkbox"  value="${u.id}" name="usersToDelete">
                             </div>
                         </td>
                         <td>
@@ -59,41 +59,41 @@
                 </tbody>
             </table>
         </form:form>
-                    <c:if test="${!usersPage.getContent().isEmpty()}">
-                    <nav aria-label="Page navigation example">
-                                  <ul class="pagination justify-content-center">
-                                  <c:if test="${usersPage.getNumber() > 1}">
-                                    <li class="page-item">
-                                      <a class="page-link" href="/admin/users?size=${param.size}&page=1" aria-label="Previous">
-                                        <span aria-hidden="true">&laquo;</span>
-                                      </a>
-                                    </li>
-                                    </c:if>
-                                    <c:if test="${usersPage.getNumber() > 0}">
-                                                                <li class="page-item">
-                                                                  <a class="page-link" href="/admin/users?size=${param.size}&page=${param.page - 1}" aria-label="Previous">
-                                                                    <span aria-hidden="true">&lsaquo;</span>
-                                                                  </a>
-                                                                </li>
-                                                                </c:if>
-                                    <li class="page-item"><a class="page-link" href="#">${usersPage.getNumber() + 1}</a></li>
-                                    <c:if test="${usersPage.getTotalPages() - usersPage.getNumber() > 1}">
-                                                                                            <li class="page-item">
-                                                                                              <a class="page-link" href="/admin/users?size=${param.size}&page=${param.page + 1}" aria-label="Previous">
-                                                                                                <span aria-hidden="true">&rsaquo;</span>
-                                                                                              </a>
-                                                                                            </li>
-                                                                                            </c:if>
-                                                                <c:if test="${usersPage.getTotalPages() - usersPage.getNumber() > 2}">
-                                                                                                                        <li class="page-item">
-                                                                                                                          <a class="page-link" href="/admin/users?size=${param.size}&page=${usersPage.getTotalPages()}" aria-label="Previous">
-                                                                                                                            <span aria-hidden="true">&raquo;</span>
-                                                                                                                          </a>
-                                                                                                                        </li>
-                                                                                                                        </c:if>
-                                  </ul>
-                                </nav>
-                                </c:if>
+        <c:if test="${!usersPage.getContent().isEmpty()}">
+            <nav aria-label="Page navigation example">
+                <ul class="pagination justify-content-center">
+                    <c:if test="${usersPage.getNumber() > 1}">
+                        <li class="page-item">
+                            <a class="page-link" href="/admin/users?size=${param.size}&page=1" aria-label="Previous">
+                                <span aria-hidden="true">&laquo;</span>
+                            </a>
+                        </li>
+                    </c:if>
+                    <c:if test="${usersPage.getNumber() > 0}">
+                        <li class="page-item">
+                            <a class="page-link" href="/admin/users?size=${param.size}&page=${param.page - 1}" aria-label="Previous">
+                                <span aria-hidden="true">&lsaquo;</span>
+                            </a>
+                        </li>
+                    </c:if>
+                    <li class="page-item"><a class="page-link" href="#">${usersPage.getNumber() + 1}</a></li>
+                    <c:if test="${usersPage.getTotalPages() - usersPage.getNumber() > 1}">
+                        <li class="page-item">
+                            <a class="page-link" href="/admin/users?size=${param.size}&page=${param.page + 1}" aria-label="Previous">
+                                <span aria-hidden="true">&rsaquo;</span>
+                            </a>
+                        </li>
+                    </c:if>
+                    <c:if test="${usersPage.getTotalPages() - usersPage.getNumber() > 2}">
+                        <li class="page-item">
+                            <a class="page-link" href="/admin/users?size=${param.size}&page=${usersPage.getTotalPages()}" aria-label="Previous">
+                                <span aria-hidden="true">&raquo;</span>
+                            </a>
+                        </li>
+                    </c:if>
+                </ul>
+            </nav>
+        </c:if>
     </div>
     <div class="modal fade" id="addUserModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
          aria-hidden="true">

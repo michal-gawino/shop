@@ -14,6 +14,7 @@ import java.util.List;
 
 @Controller
 @RequestMapping(value = "/user")
+@SessionAttributes("user")
 public class UserController {
 
     @Autowired
@@ -21,6 +22,11 @@ public class UserController {
 
     @Autowired
     private BCryptPasswordEncoder encoder;
+
+    @GetMapping
+    public String getProfileView(){
+        return "profile";
+    }
 
     @PostMapping
     public String create(User user, Model model, RedirectAttributes redirectAttrs,
@@ -47,7 +53,8 @@ public class UserController {
 
     @PutMapping("/{id}")
     public String update(@PathVariable("id") User user, User newUser,
-                         @RequestHeader(value = "referer", required = false) final String referrer){
+                         @RequestHeader(value = "referer", required = false) final String referrer,
+                         RedirectAttributes redirectAttrs){
         if(user != null){
             if(newUser.getName() != null){
                 user.setName(newUser.getName());
@@ -62,7 +69,35 @@ public class UserController {
                 user.setPassword(encoder.encode(newUser.getPassword()));
             }
             userService.save(user);
+            redirectAttrs.addFlashAttribute("success", "Data changed successfully");
         }
         return "redirect:"+ referrer;
     }
+
+
+    @GetMapping("/password")
+    public String changePasswordView(){
+        return "change_password";
+    }
+
+    @PostMapping("/password")
+    public String changePassword(@RequestParam("currentPassword") String currentPassword,
+                                 @RequestParam("newPassword") String newPassword,
+                                 @RequestParam("newPasswordRepeat") String newPasswordRepeat, User user, Model model){
+        if(encoder.matches(currentPassword, user.getPassword())){
+            if(!newPassword.equals(newPasswordRepeat)){
+                model.addAttribute("error", "Given passwords do not match");
+            }else{
+                user.setPassword(encoder.encode(newPassword));
+                userService.save(user);
+                model.addAttribute("success", "Password has been changed successfully");
+            }
+        }else{
+            model.addAttribute("error", "Current password is invalid");
+        }
+        return "change_password";
+    }
+
+
+
 }

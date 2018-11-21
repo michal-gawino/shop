@@ -27,16 +27,15 @@
                                     </h5>
                                 </div>
 
-                                <div id="order${order.id}" class="collapse" aria-labelledby="headingOne"
-                                     data-parent="#accordionExample">
+                                <div id="order${order.id}" class="collapse" aria-labelledby="headingOne" data-parent="#accordionExample">
                                     <div class="card-body">
                                         <ul class="list-unstyled">
                                             <c:forEach items="${order.products}" var="product">
-                                                <li class="media my-3">
+                                                <li class="media my-3 my-1">
                                                     <img class="img-thumbnail" width="250" height="250"
                                                          src="data:image/jpg;base64,<c:out value='${fileManager.getBase64Image(fileManager.getProductImagePath(product))}'/>">
-                                                    <div class="media-body">
-                                                        <h5 class="mt-0 mb-1">${product.brand}</h5>
+                                                    <div class="media-body mx-1">
+                                                        <h5>${product.brand}</h5>
                                                         ${product.name}
                                                     </div>
                                                 </li>
