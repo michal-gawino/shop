@@ -7,23 +7,26 @@
 <t:page>
     <div class="container">
         <div class="row justify-content-center align-items-center">
-            <form:form action="/user/password" method="POST">
+            <form:form action="/user/password" modelAttribute="passwordChangeForm" method="POST">
                 <div class="form-row">
                     <div class="form-group">
                         <label>Current password</label>
-                        <input type="password" class="form-control" name="currentPassword" required>
+                        <input type="password" class="form-control" name="currentPassword" value="${param.currentPassword}" required>
+                        <small class="form-text text-danger"><form:errors path="currentPassword"/></small>
                     </div>
                 </div>
                 <div class="form-row">
                     <div class="form-group">
                         <label>New password</label>
-                        <input type="password" class="form-control" name="newPassword" required>
+                        <input type="password" class="form-control" name="newPassword" value="${param.newPassword}" required>
+                        <small class="form-text text-danger"><form:errors path="newPassword"/></small>
                     </div>
                 </div>
                 <div class="form-row">
                     <div class="form-group">
                         <label>Repeat new password</label>
-                        <input type="password" class="form-control" name="newPasswordRepeat" required>
+                        <input type="password" class="form-control" name="newPasswordConfirmation" value="${param.newPasswordConfirmation}" required>
+                        <small class="form-text text-danger"><form:errors path="newPasswordConfirmation"/></small>
                     </div>
                 </div>
                 <button type="submit" class="btn btn-primary float-right">Change password</button>

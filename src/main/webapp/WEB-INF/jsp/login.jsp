@@ -10,8 +10,8 @@
                     <center><img src="<c:url value="/images/login.png" />" style="height: auto;width: 100px" ></center>
                     <form class="form-signin" action="login" method="POST">
                         <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
-                        <input name="username" type="text" class="form-control" placeholder="login" required autofocus>
-                        <input name="password" type="password" class="form-control" placeholder="password" required>
+                        <input name="username" type="text" class="form-control" placeholder="login">
+                        <input name="password" type="password" class="form-control" placeholder="password">
                         <button class="btn btn-primary btn-block" type="submit">Log in</button>
                     </form>
                     <c:if test="${not empty param.error}">

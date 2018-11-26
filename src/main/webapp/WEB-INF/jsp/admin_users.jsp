@@ -44,7 +44,7 @@
                         <td>${u.surname}</td>
                         <td>
                             <div class="form-check">
-                                <input class="form-check-input" type="checkbox"  value="${u.id}" name="usersToDelete">
+                                <input class="form-check-input" type="checkbox" value="${u.id}" name="usersToDelete">
                             </div>
                         </td>
                         <td>
@@ -71,7 +71,8 @@
                     </c:if>
                     <c:if test="${usersPage.getNumber() > 0}">
                         <li class="page-item">
-                            <a class="page-link" href="/admin/users?size=${param.size}&page=${param.page - 1}" aria-label="Previous">
+                            <a class="page-link" href="/admin/users?size=${param.size}&page=${param.page - 1}"
+                               aria-label="Previous">
                                 <span aria-hidden="true">&lsaquo;</span>
                             </a>
                         </li>
@@ -79,18 +80,35 @@
                     <li class="page-item"><a class="page-link" href="#">${usersPage.getNumber() + 1}</a></li>
                     <c:if test="${usersPage.getTotalPages() - usersPage.getNumber() > 1}">
                         <li class="page-item">
-                            <a class="page-link" href="/admin/users?size=${param.size}&page=${param.page + 1}" aria-label="Previous">
+                            <a class="page-link" href="/admin/users?size=${param.size}&page=${param.page + 1}"
+                               aria-label="Previous">
                                 <span aria-hidden="true">&rsaquo;</span>
                             </a>
                         </li>
                     </c:if>
                     <c:if test="${usersPage.getTotalPages() - usersPage.getNumber() > 2}">
                         <li class="page-item">
-                            <a class="page-link" href="/admin/users?size=${param.size}&page=${usersPage.getTotalPages()}" aria-label="Previous">
+                            <a class="page-link"
+                               href="/admin/users?size=${param.size}&page=${usersPage.getTotalPages()}"
+                               aria-label="Previous">
                                 <span aria-hidden="true">&raquo;</span>
                             </a>
                         </li>
                     </c:if>
+                    <li class="page-item mx-2">
+                        <div class="btn-group">
+                            <button type="button" class="btn btn-light" disabled>Number of records</button>
+                            <button type="button" class="btn btn-light dropdown-toggle dropdown-toggle-split"
+                                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <span class="sr-only">Toggle Dropdown</span>
+                            </button>
+                            <div class="dropdown-menu">
+                                <c:forEach var="i" begin="10" end="100" step="10">
+                                    <a class="dropdown-item" href="/admin/users?size=${i}&page=1">${i}</a>
+                                </c:forEach>
+                            </div>
+                        </div>
+                    </li>
                 </ul>
             </nav>
         </c:if>
@@ -99,7 +117,7 @@
          aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
-                <form action="/user" method="POST">
+                <form:form modelAttribute="u" action="/user"  method="POST">
                     <div class="modal-header">
                         <h5 class="modal-title" id="exampleModalLongTitle">Add user</h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -109,26 +127,28 @@
                     <div class="modal-body">
                         <div class="form-group">
                             <label>Name</label>
-                            <input type="text" class="form-control" name="name">
+                            <input type="text" class="form-control" name="name" required>
                         </div>
                         <div class="form-group">
                             <label>Surname</label>
-                            <input type="text" class="form-control" name="surname">
+                            <input type="text" class="form-control" name="surname" required>
                         </div>
                         <div class="form-group">
                             <label>Login</label>
-                            <input type="text" class="form-control" name="login">
+                            <input type="text" class="form-control" name="login" required="required" pattern="[A-Za-z0-9#$%&*()]{6,}"
+                            title="Login should contain at least 6 characters. Allowed special characters: # $ % & * ( )">
                         </div>
                         <div class="form-group">
                             <label>Password</label>
-                            <input type="password" class="form-control" name="password">
+                            <input type="password" class="form-control" name="password" required="required" pattern="[A-Za-z0-9#$%&*()]{6,}"
+                            title="Password should contain at least 6 characters. Allowed special characters: # $ % & * ( )">
                         </div>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                         <button type="submit" class="btn btn-primary">Save</button>
                     </div>
-                </form>
+                </form:form>
             </div>
         </div>
     </div>
@@ -147,19 +167,21 @@
                     <div class="modal-body">
                         <div class="form-group">
                             <label>Name</label>
-                            <input type="text" class="form-control" name="name" id="name">
+                            <input type="text" class="form-control" name="name" id="name" required>
                         </div>
                         <div class="form-group">
                             <label>Surname</label>
-                            <input type="text" class="form-control" name="surname" id="surname">
+                            <input type="text" class="form-control" name="surname" id="surname" required>
                         </div>
                         <div class="form-group">
                             <label>Login</label>
-                            <input type="text" class="form-control" name="login" id="login">
+                            <input type="text" class="form-control" name="login" id="login" pattern="[A-Za-z0-9#$%&*()]{6,}"
+                             title="Login should contain at least 6 characters. Allowed special characters: # $ % & * ( )">
                         </div>
                         <div class="form-group">
                             <label>Password</label>
-                            <input type="password" class="form-control" name="password">
+                            <input type="password" class="form-control" name="password" pattern="[A-Za-z0-9#$%&*()]{6,}"
+                            title="Password should contain at least 6 characters. Allowed special characters: # $ % & * ( )">
                         </div>
                     </div>
                     <div class="modal-footer">

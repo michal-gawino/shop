@@ -11,13 +11,15 @@
                 <div class="form-row">
                     <div class="form-group">
                         <label>Name</label>
-                        <input type="text" class="form-control" name="name">
+                        <input type="text" class="form-control" name="name" pattern="^\S*$"
+                        title="Name can't contain whitespaces">
                     </div>
                 </div>
                 <div class="form-row">
                     <div class="form-group">
                         <label>Surname</label>
-                        <input type="text" class="form-control" name="surname">
+                        <input type="text" class="form-control" name="surname" pattern="^\S*$"
+                        title="Surname can't contain whitespaces">
                     </div>
                 </div>
                 <button type="submit" class="btn btn-primary float-right">Save changes</button>

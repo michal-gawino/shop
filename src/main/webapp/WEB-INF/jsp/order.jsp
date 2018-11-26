@@ -19,28 +19,27 @@
                     </div>
                     <div class="col-md-4 mb-3">
                         <label for="validationDefault02">Country</label>
-                        <input type="text" class="form-control" placeholder="Country" name="country" required>
+                        <input type="text" class="form-control" placeholder="Country" name="country">
                     </div>
                 </div>
                 <div class="form-row">
                     <div class="col-md-5 mb-3">
                         <label for="validationDefault03">City</label>
-                        <input type="text" class="form-control" name="city" placeholder="City" required>
+                        <input type="text" class="form-control" name="city" placeholder="City">
                     </div>
                     <div class="col-md-4 mb-3">
                         <label for="validationDefault04">Street</label>
-                        <input type="text" class="form-control" name="street" placeholder="Street" required>
+                        <input type="text" class="form-control" name="street" placeholder="Street">
                     </div>
                     <div class="col-md-3 mb-3">
                         <label for="validationDefault05">Postal code</label>
-                        <input type="text" class="form-control" name="postalCode" placeholder="Postal code" required>
+                        <input type="text" class="form-control" name="postalCode" placeholder="Postal code">
                     </div>
                 </div>
                 <div class="form-row">
                     <div class="col-md-4">
                         <label>Credit card</label>
-                        <input type="text" class="form-control" name="creditCardNumber" placeholder="Credit card number"
-                               required>
+                        <input type="text" class="form-control" name="creditCardNumber" placeholder="Credit card number">
                     </div>
                 </div>
                 <a href="/cart" class="btn btn-secondary btn-md my-1 active" role="button">Back</a>

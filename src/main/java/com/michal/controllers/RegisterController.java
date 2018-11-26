@@ -1,45 +1,44 @@
 package com.michal.controllers;
 
 import com.michal.entities.User;
-import com.michal.enumerated.UserRole;
 import com.michal.impl.UserServiceImpl;
+import com.michal.validators.UserValidator;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-
-import java.util.Map;
+import javax.validation.Valid;
 
 @Controller
 @RequestMapping(value = "/register")
 class RegisterController {
 
     @Autowired
-    private BCryptPasswordEncoder encoder;
-
-    @Autowired
     private UserServiceImpl userService;
 
+    @Autowired
+    private UserValidator userValidator;
+
+    @InitBinder
+    protected void initBinder(WebDataBinder binder){
+        binder.addValidators(userValidator);
+    }
+
     @GetMapping
-    public String register() {
+    public String getRegisterView() {
         return "register";
     }
 
-
     @PostMapping
-    public String create(User user, Model model, RedirectAttributes redirectAttrs){
-        User u = userService.findByLogin(user.getLogin());
-        if(u != null){
-            model.addAttribute("user_exists", "User already exists");
+    public String registerUser(@Valid User user, BindingResult bindingResult, Model model, RedirectAttributes redirectAttrs){
+        if(bindingResult.hasFieldErrors()){
             return "register";
-        }else{
-            user.setPassword(encoder.encode(user.getPassword()));
-            user.setRole(UserRole.CUSTOMER);
-            userService.save(user);
-            redirectAttrs.addFlashAttribute("success", "Registration successful");
         }
+        userService.createUser(user);
+        redirectAttrs.addFlashAttribute("success", "Registration successful");
         return "redirect:/register";
     }
 }

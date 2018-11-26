@@ -10,4 +10,6 @@ public interface UserService extends GenericService<User, Long>  {
 
     User findByLogin(String login);
     Page<User> getAll(Pageable pageable);
+    void createUser(User u);
+    User getCurrent();
 }
