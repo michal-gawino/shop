@@ -5,13 +5,15 @@ import com.michal.entities.OrderDetails;
 import com.michal.entities.User;
 import com.michal.impl.OrderServiceImpl;
 import com.michal.util.Cart;
+import com.michal.validators.OrderDetailsValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.SessionAttributes;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.WebDataBinder;
+import org.springframework.web.bind.annotation.*;
+
+import javax.validation.Valid;
 import java.util.List;
 
 @Controller
@@ -20,7 +22,15 @@ import java.util.List;
 public class OrderController {
 
     @Autowired
-    OrderServiceImpl orderService;
+    private OrderServiceImpl orderService;
+
+    @Autowired
+    private OrderDetailsValidator orderDetailsValidator;
+
+    @InitBinder("orderDetails")
+    protected void initBinder(WebDataBinder webDataBinder){
+        webDataBinder.addValidators(orderDetailsValidator);
+    }
 
     @GetMapping
     public String getOrderView(){
@@ -35,7 +45,11 @@ public class OrderController {
     }
 
     @PostMapping
-    public String placeOrder(OrderDetails orderDetails, User user, Cart cart){
+    public String placeOrder(@Valid @ModelAttribute("orderDetails") OrderDetails orderDetails,
+                             BindingResult bindingResult, User user, Cart cart){
+        if(bindingResult.hasFieldErrors()){
+            return "order";
+        }
         Order order = new Order(user, orderDetails, cart.getProducts());
         orderService.save(order);
         cart.clear();

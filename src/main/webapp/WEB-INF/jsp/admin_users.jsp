@@ -60,7 +60,7 @@
             </table>
         </form:form>
         <c:if test="${!usersPage.getContent().isEmpty()}">
-            <nav aria-label="Page navigation example">
+            <nav aria-label="Page navigation">
                 <ul class="pagination justify-content-center">
                     <c:if test="${usersPage.getNumber() > 1}">
                         <li class="page-item">

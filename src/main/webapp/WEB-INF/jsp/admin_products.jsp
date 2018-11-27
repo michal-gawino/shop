@@ -42,7 +42,7 @@
             </tbody>
         </table>
         <c:if test="${!productsPage.getContent().isEmpty()}">
-            <nav aria-label="Page navigation example">
+            <nav aria-label="Page navigation">
                 <ul class="pagination justify-content-center">
                     <c:if test="${productsPage.getNumber() > 1}">
                         <li class="page-item">
@@ -109,19 +109,19 @@
                     <div class="modal-body">
                         <div class="form-group">
                             <label>Name</label>
-                            <input type="text" class="form-control" name="name">
+                            <input type="text" class="form-control" name="name" required>
                         </div>
                         <div class="form-group">
                             <label>Brand</label>
-                            <input type="text" class="form-control" name="brand">
+                            <input type="text" class="form-control" name="brand" required>
                         </div>
                         <div class="form-group">
                             <label>Price</label>
-                            <input type="number" step="0.01" min="0" class="form-control" name="price">
+                            <input type="number" step="0.01" min="0" class="form-control" name="price" required>
                         </div>
                         <div class="form-group">
                             <label for="exampleFormControlSelect2">Category</label>
-                            <select class="form-control" id="category" name="category">
+                            <select class="form-control" id="category" name="category" required>
                                 <c:forEach items="${categories}" var="category">
                                     <option value="${category.id}" }>${category.name}</option>
                                 </c:forEach>
@@ -129,7 +129,7 @@
                         </div>
                         <div class="form-group">
                             <label for="image">Image</label>
-                            <input type="file" class="form-control-file" name="image">
+                            <input type="file" class="form-control-file" name="image" required>
                         </div>
                     </div>
                     <div class="modal-footer">
@@ -155,19 +155,19 @@
                     <div class="modal-body">
                         <div class="form-group">
                             <label>Name</label>
-                            <input type="text" class="form-control" name="name" id="name">
+                            <input type="text" class="form-control" name="name" id="name" required>
                         </div>
                         <div class="form-group">
                             <label>Brand</label>
-                            <input type="text" class="form-control" name="brand" id="brand">
+                            <input type="text" class="form-control" name="brand" id="brand" required>
                         </div>
                         <div class="form-group">
                             <label>Price</label>
-                            <input type="number" step="0.01" min="0" class="form-control" name="price" id="price">
+                            <input type="number" step="0.01" min="0" class="form-control" name="price" id="price" required>
                         </div>
                         <div class="form-group" id="category">
                             <label for="exampleFormControlSelect2">Category</label>
-                            <select class="form-control" name="category">
+                            <select class="form-control" name="category" required>
                                 <c:forEach items="${categories}" var="category">
                                     <option value="${category.id}">${category.name}</option>
                                 </c:forEach>
@@ -175,7 +175,7 @@
                         </div>
                         <div class="form-group">
                             <label for="image">Image</label>
-                            <input type="file" class="form-control-file" name="image">
+                            <input type="file" class="form-control-file" name="image" required>
                         </div>
                     </div>
                     <div class="modal-footer">

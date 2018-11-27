@@ -3,13 +3,15 @@ package com.michal.controllers;
 import com.michal.entities.Category;
 import com.michal.impl.CategoryServiceImpl;
 import com.michal.util.FileManager;
-import org.apache.commons.io.FileUtils;
+import com.michal.validators.CategoryValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import javax.imageio.ImageIO;
+import javax.validation.Valid;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -27,6 +29,14 @@ public class CategoryController {
     @Autowired
     private FileManager fileManager;
 
+    @Autowired
+    private CategoryValidator categoryValidator;
+
+    @InitBinder
+    protected void initCategoryBinder(WebDataBinder webDataBinder){
+        webDataBinder.addValidators(categoryValidator);
+    }
+
     @GetMapping
     public String getCategoryView(Model model) {
         model.addAttribute("categories", categoryService.findAll());
@@ -40,7 +50,7 @@ public class CategoryController {
     }
 
     @PostMapping
-    public String create(Category category, MultipartFile image, Model model) throws IOException {
+    public String create(@Valid Category category, MultipartFile image) throws IOException {
         BufferedImage img = ImageIO.read(image.getInputStream());
         if(img != null){
             category.setFilename(image.getOriginalFilename());
@@ -53,7 +63,7 @@ public class CategoryController {
     }
 
     @PutMapping("/{id}")
-    public String update(@PathVariable("id") Category category, Category newCategory, MultipartFile image) throws IOException {
+    public String update(@Valid @PathVariable("id") Category category, Category newCategory, MultipartFile image) throws IOException {
         if(category != null){
             if(newCategory.getName() != null){
                 category.setName(newCategory.getName());
