@@ -1,7 +1,6 @@
 import com.michal.Application;
 import com.michal.entities.User;
 import com.michal.impl.UserServiceImpl;
-import com.michal.util.Cart;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -13,9 +12,10 @@ import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.transaction.annotation.Transactional;
-import static org.hamcrest.Matchers.isA;
+
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @ActiveProfiles(profiles = "test")
@@ -23,7 +23,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.MOCK, classes = Application.class)
 @AutoConfigureMockMvc
 @Transactional
-class LoginControllerTest {
+class RegisterControllerTest {
 
     @Autowired
     private MockMvc mockMvc;
@@ -32,39 +32,36 @@ class LoginControllerTest {
     private UserServiceImpl userService;
 
     @Test
-    void loginPageTest() throws Exception {
-        mockMvc.perform(get("/login"))
+    void registerPageTest() throws Exception {
+        mockMvc.perform(get("/register"))
                 .andExpect(status().isOk())
-                .andExpect(view().name("login"));
+                .andExpect(view().name("register"));
     }
 
     @ParameterizedTest
     @MethodSource("Provider#getValidUsers")
-    void loginFailureTest(User user) throws Exception {
-        User u = userService.findByLogin(user.getLogin());
-        if(u != null){
-            userService.delete(u);
-        }
-        mockMvc.perform(post("/login")
-                .param("username", user.getLogin())
+    void registrationSuccessTest(User user) throws Exception {
+        mockMvc.perform(post("/register")
+                .param("name", user.getName())
+                .param("surname", user.getSurname())
+                .param("login", user.getLogin())
                 .param("password", user.getPassword()))
-                .andExpect(redirectedUrl("/login?error=true"));
+                .andExpect(flash().attributeExists("success"))
+                .andExpect(model().hasNoErrors())
+                .andExpect(redirectedUrl("/register"));
     }
 
     @ParameterizedTest
-    @MethodSource("Provider#getValidUsers")
-    void loginSuccessTest(User u) throws Exception {
-        String password = u.getPassword();
-        User user = userService.findByLogin(u.getLogin());
-        if(user == null){
-            userService.createUser(u);
-        }
-        mockMvc.perform(post("/login")
-                .param("username", u.getLogin())
-                .param("password", password))
-                .andExpect(redirectedUrl(""))
-                .andExpect(request().sessionAttribute("user", isA(User.class)))
-                .andExpect(request().sessionAttribute("cart", isA(Cart.class)));
+    @MethodSource("Provider#getInvalidUsers")
+    void registrationFailureTest(User user, String ...fieldNames) throws Exception {
+        mockMvc.perform(post("/register")
+                .param("name", user.getName())
+                .param("surname", user.getSurname())
+                .param("login", user.getLogin())
+                .param("password", user.getPassword()))
+                .andExpect(status().isOk())
+                .andExpect(view().name("register"))
+                .andExpect(model().attributeHasFieldErrors("user", fieldNames));
     }
 
 }
