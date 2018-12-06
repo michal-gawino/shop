@@ -1,12 +1,10 @@
 package com.michal.entities;
 
-import org.springframework.data.annotation.CreatedBy;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
-
 import javax.persistence.*;
-import java.time.OffsetDateTime;
+import java.time.LocalDateTime;
 
 @MappedSuperclass
 @EntityListeners(AuditingEntityListener.class)
@@ -14,26 +12,26 @@ public abstract class Auditor {
 
     @CreatedDate
     @Column(name = "creation_date")
-    private OffsetDateTime creationDate;
+    private LocalDateTime creationDate;
 
     @LastModifiedDate
     @Column(name = "modification_date")
-    private OffsetDateTime lastModifiedDate;
+    private LocalDateTime lastModifiedDate;
 
 
-    public OffsetDateTime getCreationDate() {
+    public LocalDateTime getCreationDate() {
         return creationDate;
     }
 
-    public void setCreationDate(OffsetDateTime creationDate) {
+    public void setCreationDate(LocalDateTime creationDate) {
         this.creationDate = creationDate;
     }
 
-    public OffsetDateTime getLastModifiedDate() {
+    public LocalDateTime getLastModifiedDate() {
         return lastModifiedDate;
     }
 
-    public void setLastModifiedDate(OffsetDateTime lastModifiedDate) {
+    public void setLastModifiedDate(LocalDateTime lastModifiedDate) {
         this.lastModifiedDate = lastModifiedDate;
     }
 }

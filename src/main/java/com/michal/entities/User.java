@@ -2,11 +2,8 @@ package com.michal.entities;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.michal.enumerated.UserRole;
-
 import javax.persistence.*;
-
 import java.util.List;
-
 import static javax.persistence.GenerationType.IDENTITY;
 
 @Entity
@@ -33,6 +30,11 @@ public class User extends Auditor{
     private List<Order> orders;
 
     public User() {
+    }
+
+    public User(String login, String password) {
+        this.login = login;
+        this.password = password;
     }
 
     public User(String name, String surname, String login, String password) {

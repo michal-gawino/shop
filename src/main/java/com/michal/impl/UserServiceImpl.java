@@ -41,10 +41,10 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void createUser(User u) {
+    public User createUser(User u) {
         u.setPassword(encoder.encode(u.getPassword()));
         u.setRole(UserRole.CUSTOMER);
-        userRepository.save(u);
+        return userRepository.save(u);
     }
 
     @Override

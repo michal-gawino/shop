@@ -17,15 +17,11 @@
             crossorigin="anonymous"></script>
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.2/css/all.css"
           integrity="sha384-/rXc/GQVaYpyDdyxK+ecHPVYJSN9bmVFBvjA/9eOB+pb3F2w2N6fc5qB9Ew5yIns" crossorigin="anonymous">
-    <link href="<c:url value="
-    /css/login_styles.css" />" rel="stylesheet" type="text/css">
-    <link href="<c:url value="
-    /css/sidebar.css" />" rel="stylesheet" type="text/css">
-    <link href="<c:url value="
-    /css/toast.css" />" rel="stylesheet" type="text/css">
-    <script src="<c:url value="
-    /js/modalController.js"/>"></script>
-        <script src="<c:url value="/js/productController.js"/>"></script>
+    <link href="<c:url value="/css/login_styles.css" />" rel="stylesheet" type="text/css">
+    <link href="<c:url value="/css/sidebar.css" />" rel="stylesheet" type="text/css">
+    <link href="<c:url value="/css/toast.css" />" rel="stylesheet" type="text/css">
+    <script src="<c:url value="/js/modalController.js"/>"></script>
+    <script src="<c:url value="/js/productController.js"/>"></script>
 </head>
 <body class="homepage">
 <div id="wrapper" class="toggled">

@@ -7,6 +7,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
@@ -31,7 +32,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http
                 .authorizeRequests()
                 .antMatchers("/login/**", "/register/**").permitAll()
-                .antMatchers("/category/**", "/products/**", "/order/**", "/cart/**", "/user/**").hasAnyAuthority(UserRole.CUSTOMER.name(), UserRole.ADMIN.name())
+                .antMatchers("/category/**", "/products/**", "/order/**", "/cart/**").hasAnyAuthority(UserRole.CUSTOMER.name(), UserRole.ADMIN.name())
                 .antMatchers("/admin/**").hasAnyAuthority(UserRole.ADMIN.name())
                 .anyRequest().authenticated()
                 .and()
@@ -54,5 +55,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         authProvider.setUserDetailsService(userDetailsService);
         authProvider.setPasswordEncoder(encoder);
         return authProvider;
+    }
+
+    @Override
+    public void configure(WebSecurity web) throws Exception {
+        web.ignoring().antMatchers("/js/**", "/css/**", "/images/**");
+        super.configure(web);
     }
 }
