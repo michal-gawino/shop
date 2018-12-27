@@ -5,4 +5,6 @@ import com.michal.entities.Category;
 
 public interface CategoryService extends GenericService<Category, Long> {
 
+    Category findByName(String name);
+
 }

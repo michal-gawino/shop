@@ -1,10 +1,18 @@
+import com.michal.entities.Category;
 import com.michal.entities.User;
 import org.junit.jupiter.params.provider.Arguments;
+import org.springframework.core.io.ClassPathResource;
+import java.io.File;
+import java.io.IOException;
+import java.util.Arrays;
 import java.util.stream.Stream;
 
 import static org.junit.jupiter.params.provider.Arguments.arguments;
 
 class Provider {
+
+    private static final String VALID_CATEGORIES_PATH = "valid_categories";
+    private static final String INVALID_CATEGORIES_PATH = "invalid_categories";
 
     static Stream<User> getValidUsers() {
         return Stream.of(
@@ -20,5 +28,15 @@ class Provider {
                 arguments(new User("xy", "aq", "user_test", "L!"), new String[]{"password"}),
                 arguments(new User("test_name", "abcdef", "1k1", "12"), new String[]{"login", "password"})
         );
+    }
+
+    static Stream<Arguments> getValidCategories() throws IOException {
+        File validCategoriesDirectory = new ClassPathResource(VALID_CATEGORIES_PATH).getFile();
+        return Arrays.stream(validCategoriesDirectory.listFiles()).map(f-> arguments(new Category(f.getName()), f));
+    }
+
+    static Stream<Arguments> getInvalidCategories() throws IOException {
+        File validCategoriesDirectory = new ClassPathResource(INVALID_CATEGORIES_PATH).getFile();
+        return Arrays.stream(validCategoriesDirectory.listFiles()).map(f-> arguments(new Category(f.getName()), f));
     }
 }

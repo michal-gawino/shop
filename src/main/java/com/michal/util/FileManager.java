@@ -53,4 +53,8 @@ public class FileManager {
     public Path getProductImagePath(Product p){
         return Paths.get(ROOT_DIRECTORY, CATEGORY_DIRECTORY, p.getCategory().getId().toString(), PRODUCTS_DIRECTORY, p.getFilename());
     }
+
+    public File getCategoriesFile(){
+        return Paths.get(ROOT_DIRECTORY, CATEGORY_DIRECTORY).toFile();
+    }
 }

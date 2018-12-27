@@ -18,4 +18,9 @@ public class CategoryServiceImpl implements CategoryService {
     public PagingAndSortingRepository<Category, Long> getRepository() {
         return categoryRepository;
     }
+
+    @Override
+    public Category findByName(String name) {
+        return categoryRepository.findByName(name);
+    }
 }
