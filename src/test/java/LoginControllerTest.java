@@ -53,6 +53,20 @@ class LoginControllerTest {
 
     @ParameterizedTest
     @MethodSource("Provider#getValidUsers")
+    void loginFailureWithBadCredentialsTest(User u) throws Exception {
+        String password = u.getPassword().concat("test");
+        User user = userService.findByLogin(u.getLogin());
+        if(user == null){
+            userService.createUser(u);
+        }
+        mockMvc.perform(post("/login")
+                .param("username", u.getLogin())
+                .param("password", password))
+                .andExpect(redirectedUrl("/login?error=true"));
+    }
+
+    @ParameterizedTest
+    @MethodSource("Provider#getValidUsers")
     void loginSuccessTest(User u) throws Exception {
         String password = u.getPassword();
         User user = userService.findByLogin(u.getLogin());

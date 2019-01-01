@@ -18,10 +18,10 @@ import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.transaction.annotation.Transactional;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
+import java.util.List;
 
 import static org.hamcrest.Matchers.hasSize;
 import static org.junit.jupiter.api.Assertions.*;
@@ -32,7 +32,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @ExtendWith(SpringExtension.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.MOCK, classes = Application.class)
 @AutoConfigureMockMvc
-@Transactional
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 class CategoryControllerTest {
 
@@ -71,8 +70,20 @@ class CategoryControllerTest {
                 ()-> assertTrue(categoryImage.exists()),
                 ()-> assertTrue(productsDirectory.isDirectory())
         );
-
     }
+
+    @WithMockUser(authorities = {"CUSTOMER", "ADMIN"})
+    @ParameterizedTest
+    @MethodSource("Provider#getValidCategories")
+    void productsPageTest(Category c, File image) throws Exception {
+        Category category = categoryService.findByName(c.getName());
+        mockMvc.perform(get(String.format("/category/%d/products", category.getId())))
+                .andExpect(status().isOk())
+                .andExpect(view().name("product"))
+                .andExpect(model().attributeExists("products"));
+    }
+
+
 
     @WithMockUser(authorities = {"ADMIN"})
     @ParameterizedTest
@@ -89,8 +100,12 @@ class CategoryControllerTest {
     }
 
     @AfterAll
-    void cleanDirectories() throws IOException {
-        File dir = fileManager.getCategoriesFile();
-        FileUtils.deleteDirectory(dir);
+    void cleanUp() throws IOException {
+        List<Category> categories = categoryService.findAll();
+        for(Category c : categories){
+            File dir = fileManager.getOrCreateCategoryDirectory(c);
+            FileUtils.deleteDirectory(dir);
+            categoryService.delete(c);
+        }
     }
 }

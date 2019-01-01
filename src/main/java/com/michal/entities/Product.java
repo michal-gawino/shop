@@ -25,6 +25,12 @@ public class Product extends Auditor{
     @ManyToMany(mappedBy = "products")
     private List<Order> orders;
 
+    public Product(String name, String brand, Double price) {
+        this.name = name;
+        this.brand = brand;
+        this.price = price;
+    }
+
     public Long getId() {
         return id;
     }

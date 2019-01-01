@@ -4,7 +4,6 @@ import com.michal.enumerated.UserRole;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -33,10 +32,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http
                 .authorizeRequests()
                 .antMatchers("/login/**", "/register/**").permitAll()
-                .antMatchers( "/products/**", "/order/**", "/cart/**", "/user").hasAnyAuthority(UserRole.CUSTOMER.name(), UserRole.ADMIN.name())
+                .antMatchers( "/order/**", "/cart/**", "/user/**", "/category/**").hasAnyAuthority(UserRole.CUSTOMER.name(), UserRole.ADMIN.name())
                 .antMatchers("/admin/**").hasAnyAuthority(UserRole.ADMIN.name())
-                .antMatchers(HttpMethod.GET, "/category").hasAnyAuthority(UserRole.CUSTOMER.name(), UserRole.ADMIN.name())
-                .antMatchers( "/category/**").hasAnyAuthority(UserRole.ADMIN.name())
                 .anyRequest().authenticated()
                 .and()
                 .formLogin()
@@ -48,7 +45,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     }
 
     @Override
-    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+    protected void configure(AuthenticationManagerBuilder auth) {
         auth.authenticationProvider(authenticationProvider());
     }
 

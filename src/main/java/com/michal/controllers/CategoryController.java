@@ -5,6 +5,7 @@ import com.michal.impl.CategoryServiceImpl;
 import com.michal.util.FileManager;
 import com.michal.validators.CategoryValidator;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.WebDataBinder;
@@ -49,19 +50,14 @@ public class CategoryController {
         return "product";
     }
 
+    @PreAuthorize("hasAuthority('ADMIN')")
     @PostMapping
     public String create(@Valid Category category, MultipartFile image) throws IOException {
-        BufferedImage img = ImageIO.read(image.getInputStream());
-        if(img != null){
-            category.setFilename(image.getOriginalFilename());
-            Category c = categoryService.save(category);
-            File categoryDir = fileManager.getOrCreateCategoryDirectory(c);
-            File imgDest = new File(categoryDir, image.getOriginalFilename());
-            image.transferTo(imgDest);
-        }
+        categoryService.create(category, image);
         return "redirect:/category";
     }
 
+    @PreAuthorize("hasAuthority('ADMIN')")
     @PutMapping("/{id}")
     public String update(@Valid @PathVariable("id") Category category, Category newCategory, MultipartFile image) throws IOException {
         if(category != null){

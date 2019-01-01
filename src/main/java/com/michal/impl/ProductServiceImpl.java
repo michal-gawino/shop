@@ -21,4 +21,9 @@ public class ProductServiceImpl implements ProductService {
     public PagingAndSortingRepository<Product, Long> getRepository() {
         return productRepository;
     }
+
+    @Override
+    public Product findByName(String name) {
+        return productRepository.findByName(name);
+    }
 }
