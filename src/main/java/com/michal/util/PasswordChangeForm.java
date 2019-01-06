@@ -10,6 +10,12 @@ public class PasswordChangeForm {
     public PasswordChangeForm() {
     }
 
+    public PasswordChangeForm(String currentPassword, String newPassword, String newPasswordConfirmation) {
+        this.currentPassword = currentPassword;
+        this.newPassword = newPassword;
+        this.newPasswordConfirmation = newPasswordConfirmation;
+    }
+
     public String getCurrentPassword() {
         return currentPassword;
     }
