@@ -1,4 +1,5 @@
 import com.michal.entities.Category;
+import com.michal.entities.OrderDetails;
 import com.michal.entities.Product;
 import com.michal.entities.User;
 import org.junit.jupiter.params.provider.Arguments;
@@ -36,6 +37,15 @@ class Provider {
                         new String[]{"password"}),
                 arguments(new User("test_name", "abcdef", "1k1", "12"),
                         new String[]{"login", "password"})
+        );
+    }
+
+    static Stream<Arguments> getValidOrderDetails() {
+        return Stream.of(
+                arguments(new User("name1", "ab", "test13", "secret"),
+                        new OrderDetails("PL", "test_city", "street", "99-999",
+                                "1111222233334444"), Arrays.asList(new Product("product1",
+                                "brand", 12.5), new Product("product2", "test_brand", 122.35)))
         );
     }
 

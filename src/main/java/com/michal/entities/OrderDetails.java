@@ -27,6 +27,14 @@ public class OrderDetails {
     public OrderDetails() {
     }
 
+    public OrderDetails(String country, String city, String street, String postalCode, String creditCardNumber) {
+        this.country = country;
+        this.city = city;
+        this.street = street;
+        this.postalCode = postalCode;
+        this.creditCardNumber = creditCardNumber;
+    }
+
     public Long getId() {
         return id;
     }

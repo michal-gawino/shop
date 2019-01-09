@@ -11,14 +11,13 @@ import org.junit.jupiter.params.provider.MethodSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.security.access.annotation.Secured;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.transaction.annotation.Transactional;
+import java.util.Optional;
 
 import static org.hamcrest.Matchers.isA;
 import static org.junit.jupiter.api.Assertions.*;
@@ -123,6 +122,28 @@ class UserControllerTest {
                 .param("newPasswordConfirmation", form.getNewPasswordConfirmation()))
                 .andExpect(model().attributeHasFieldErrors("passwordChangeForm", "currentPassword",
                         "newPasswordConfirmation"));
+    }
+
+    @ParameterizedTest
+    @MethodSource("Provider#getValidUsers")
+    void changePasswordTest(User user) throws Exception {
+        String currentPassword = user.getPassword();
+        String newPassword = "testpwd";
+        user.setRole(UserRole.CUSTOMER);
+        User u = userService.findByLogin(user.getLogin());
+        if(u == null){
+            u = userService.createUser(user);
+        }
+        CustomUserDetails customUserDetails = new CustomUserDetails(u);
+        PasswordChangeForm form = new PasswordChangeForm(currentPassword, newPassword, newPassword);
+        mockMvc.perform(post("/user/password")
+                .with(user(customUserDetails))
+                .param("currentPassword", form.getCurrentPassword())
+                .param("newPassword", form.getNewPassword())
+                .param("newPasswordConfirmation", form.getNewPasswordConfirmation()))
+                .andExpect(flash().attributeExists("success"));
+        Optional<User> updatedUser = userService.findOne(u.getId());
+        updatedUser.ifPresent(uu -> assertTrue(encoder.matches(newPassword, uu.getPassword())));
     }
 
 }

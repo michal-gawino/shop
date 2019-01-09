@@ -1,5 +1,6 @@
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@tag description="Page template" pageEncoding="UTF-8"%>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -32,50 +33,48 @@
                     eShop
                 </a>
             </li>
-            <c:choose>
-                <c:when test="${empty sessionScope.user}">
+            <sec:authorize access="!isAuthenticated()">
+                <li>
+                    <a href="/login"><i class="fas fa-sign-in-alt"></i> Log in</a>
+                </li>
+                <li>
+                    <a href="/register"><i class="fas fa-user-plus"></i> Sign up</a>
+                </li>
+            </sec:authorize>
+            <sec:authorize access="isAuthenticated()">
+                <sec:authorize access="hasAuthority('ADMIN')">
                     <li>
-                        <a href="/login"><i class="fas fa-sign-in-alt"></i> Log in</a>
+                        <a href="#admin" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle"><i
+                                class="fas fa-toolbox"></i> Admin panel</a>
+                        <ul class="collapse list-unstyled" id="admin">
+                            <li>
+                                <a href="/admin/users?page=1&size=10">Users</a>
+                            </li>
+                            <li>
+                                <a href="/admin/products?page=1&size=10">Products</a>
+                            </li>
+                        </ul>
                     </li>
-                    <li>
-                        <a href="/register"><i class="fas fa-user-plus"></i> Sign up</a>
-                    </li>
-                </c:when>
-                <c:otherwise>
-                    <c:if test="${sessionScope.user.role eq 'ADMIN'}">
-                        <li>
-                            <a href="#admin" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle"><i
-                                    class="fas fa-toolbox"></i> Admin panel</a>
-                            <ul class="collapse list-unstyled" id="admin">
-                                <li>
-                                    <a href="/admin/users?page=1&size=10">Users</a>
-                                </li>
-                                <li>
-                                    <a href="/admin/products?page=1&size=10">Products</a>
-                                </li>
-                            </ul>
-                        </li>
-                    </c:if>
-                    <li>
-                        <a href="/category"><i class="fas fa-th-list"></i> Categories</a>
-                    </li>
-                    <li>
-                        <a href="/cart"><i class="fas fa-shopping-cart"></i> Cart</a>
-                    </li>
-                    <li>
-                        <a href="/order/details"><i class="fas fa-money-check"></i></i> My orders</a>
-                    </li>
-                    <li>
-                        <a href="/user"><i class="far fa-user"></i></i> Profile</a>
-                    </li>
-                    <li>
-                        <a href="/user/password"><i class="fas fa-key"></i></i> Change password</a>
-                    </li>
-                    <li>
-                        <a href="/logout"><i class="fas fa-sign-out-alt"></i> Log out</a>
-                    </li>
-                </c:otherwise>
-            </c:choose>
+                </sec:authorize>
+                <li>
+                    <a href="/category"><i class="fas fa-th-list"></i> Categories</a>
+                </li>
+                <li>
+                    <a href="/cart"><i class="fas fa-shopping-cart"></i> Cart</a>
+                </li>
+                <li>
+                    <a href="/order/details"><i class="fas fa-money-check"></i></i> My orders</a>
+                </li>
+                <li>
+                    <a href="/user"><i class="far fa-user"></i></i> Profile</a>
+                </li>
+                <li>
+                    <a href="/user/password"><i class="fas fa-key"></i></i> Change password</a>
+                </li>
+                <li>
+                    <a href="/logout"><i class="fas fa-sign-out-alt"></i> Log out</a>
+                </li>
+            </sec:authorize>
 
         </ul>
     </div>
