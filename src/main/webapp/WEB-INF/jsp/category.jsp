@@ -5,6 +5,11 @@
 
 <t:page>
     <div class="container">
+    <c:if test="${not empty error}">
+          <div class="alert alert-danger my-2" role="alert">
+                 ${error}
+           </div>
+    </c:if>
         <div class="row">
             <c:forEach items="${categories}" var="category">
                 <div class="col-sm-4">

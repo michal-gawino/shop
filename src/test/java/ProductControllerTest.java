@@ -18,12 +18,13 @@ import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
 import java.io.File;
 import java.nio.file.Files;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.multipart;
-import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 
 @ActiveProfiles(profiles = "test")
 @ExtendWith(SpringExtension.class)
@@ -57,7 +58,7 @@ class ProductControllerTest {
                 .param("name", p.getName())
                 .param("price", p.getPrice().toString())
                 .param("brand", p.getBrand())
-                .param("category", category.getId().toString())).andDo(print());
+                .param("category", category.getId().toString()));
         Product product = productService.findByName(p.getName());
         File productImage = fileManager.getProductImagePath(product).toFile();
         assertTrue(productImage.exists());

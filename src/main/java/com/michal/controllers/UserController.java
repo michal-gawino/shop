@@ -6,6 +6,7 @@ import com.michal.util.PasswordChangeForm;
 import com.michal.validators.PasswordChangeValidator;
 import com.michal.validators.UserValidator;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.MessageSource;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import javax.validation.Valid;
 import java.util.List;
+import java.util.Locale;
 
 
 @Controller
@@ -33,6 +35,9 @@ public class UserController {
 
     @Autowired
     private PasswordChangeValidator passwordChangeValidator;
+
+    @Autowired
+    private MessageSource messageSource;
 
     @InitBinder("user")
     protected void initUserBinder(WebDataBinder binder){
@@ -88,7 +93,7 @@ public class UserController {
                 user.setPassword(encoder.encode(newUser.getPassword()));
             }
             userService.save(user);
-            redirectAttrs.addFlashAttribute("success", "Data changed successfully");
+            redirectAttrs.addFlashAttribute("success", messageSource.getMessage("user.update.success", null, Locale.ENGLISH));
         }
         return "redirect:"+ referrer;
     }
@@ -100,11 +105,13 @@ public class UserController {
 
     @PostMapping("/password")
     public String changePassword(@Valid @ModelAttribute("passwordChangeForm") PasswordChangeForm passwordChangeForm,
-                                 BindingResult bindingResult, User user, RedirectAttributes redirectAttributes){
+                                 BindingResult bindingResult, RedirectAttributes redirectAttributes){
         if(!bindingResult.hasFieldErrors()){
-            user.setPassword(encoder.encode(passwordChangeForm.getNewPassword()));
-            userService.save(user);
-            redirectAttributes.addFlashAttribute("success", "Password has been changed successfully");
+            User currentUser = userService.getCurrent();
+            currentUser.setPassword(encoder.encode(passwordChangeForm.getNewPassword()));
+            userService.save(currentUser);
+            redirectAttributes.addFlashAttribute("success",
+                    messageSource.getMessage("password.change.success", null, Locale.ENGLISH));
             return "redirect:/user/password";
         }
         return "change_password";

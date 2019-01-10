@@ -25,7 +25,6 @@ import static org.hamcrest.Matchers.empty;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @ActiveProfiles(profiles = "test")
@@ -52,8 +51,7 @@ class OrderControllerTest {
     void ordersViewTest() throws Exception {
         mockMvc.perform(get("/order"))
                 .andExpect(status().isOk())
-                .andExpect(view().name("order"))
-                .andDo(print());
+                .andExpect(view().name("order"));
     }
 
     @ParameterizedTest

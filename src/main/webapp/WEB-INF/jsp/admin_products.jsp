@@ -5,6 +5,11 @@
 
 <t:page>
     <div class="container">
+    <c:if test="${not empty error}">
+          <div class="alert alert-danger my-2" role="alert">
+                 ${error}
+          </div>
+    </c:if>
         <table class="table table-bordered">
             <thead>
             <tr>

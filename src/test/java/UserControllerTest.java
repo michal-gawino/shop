@@ -23,7 +23,6 @@ import static org.hamcrest.Matchers.isA;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.user;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @ActiveProfiles(profiles = "test")
@@ -56,8 +55,7 @@ class UserControllerTest {
     void changePasswordViewTest() throws Exception {
         mockMvc.perform(get("/user/password"))
                 .andExpect(status().isOk())
-                .andExpect(view().name("change_password"))
-                .andDo(print());
+                .andExpect(view().name("change_password"));
     }
 
     @WithMockUser(authorities = {"ADMIN"})

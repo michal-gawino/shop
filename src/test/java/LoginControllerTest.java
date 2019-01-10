@@ -14,6 +14,8 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.transaction.annotation.Transactional;
 import static org.hamcrest.Matchers.isA;
+import static org.springframework.security.test.web.servlet.response.SecurityMockMvcResultMatchers.authenticated;
+import static org.springframework.security.test.web.servlet.response.SecurityMockMvcResultMatchers.unauthenticated;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
@@ -48,6 +50,7 @@ class LoginControllerTest {
         mockMvc.perform(post("/login")
                 .param("username", user.getLogin())
                 .param("password", user.getPassword()))
+                .andExpect(unauthenticated())
                 .andExpect(redirectedUrl("/login?error=true"));
     }
 
@@ -62,6 +65,7 @@ class LoginControllerTest {
         mockMvc.perform(post("/login")
                 .param("username", u.getLogin())
                 .param("password", password))
+                .andExpect(unauthenticated())
                 .andExpect(redirectedUrl("/login?error=true"));
     }
 
@@ -76,6 +80,7 @@ class LoginControllerTest {
         mockMvc.perform(post("/login")
                 .param("username", u.getLogin())
                 .param("password", password))
+                .andExpect(authenticated())
                 .andExpect(redirectedUrl(""))
                 .andExpect(request().sessionAttribute("user", isA(User.class)))
                 .andExpect(request().sessionAttribute("cart", isA(Cart.class)));

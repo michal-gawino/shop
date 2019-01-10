@@ -44,7 +44,6 @@ public class CategoryServiceImpl implements CategoryService {
             File categoryDir = fileManager.getOrCreateCategoryDirectory(c);
             File imgDest = new File(categoryDir, image.getOriginalFilename());
             image.transferTo(imgDest);
-
         }
         return c;
     }
