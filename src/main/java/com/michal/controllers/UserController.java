@@ -10,11 +10,13 @@ import org.springframework.context.MessageSource;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import java.util.List;
 import java.util.Locale;
@@ -39,6 +41,9 @@ public class UserController {
     @Autowired
     private MessageSource messageSource;
 
+    @Autowired
+    HttpSession session;
+
     @InitBinder("user")
     protected void initUserBinder(WebDataBinder binder){
         binder.addValidators(userValidator);
@@ -50,13 +55,13 @@ public class UserController {
     }
 
     @GetMapping
-    public String getProfileView(User user){
+    public String getProfileView(){
         return "profile";
     }
 
     @PreAuthorize("hasAuthority('ADMIN')")
     @PostMapping
-    public String create(@Valid @ModelAttribute("u") User u, BindingResult bindingResult, Model model, RedirectAttributes redirectAttrs,
+    public String create(@Valid @ModelAttribute("u") User u, BindingResult bindingResult,
                          @RequestHeader(value = "referer", required = false) final String referrer){
         if(!bindingResult.hasFieldErrors()){
             userService.createUser(u);
@@ -76,9 +81,9 @@ public class UserController {
 
     @PreAuthorize("hasAuthority('ADMIN')")
     @PutMapping("/{id}")
-    public String update(@PathVariable("id") User user, User newUser,
+    public String update(@PathVariable("id") User user, @ModelAttribute("newUser") User newUser,
                          @RequestHeader(value = "referer", required = false) final String referrer,
-                         RedirectAttributes redirectAttrs){
+                         RedirectAttributes redirectAttrs, HttpServletRequest request){
         if(user != null){
             if(newUser.getName() != null && newUser.getName().length() > 0){
                 user.setName(newUser.getName());
@@ -93,7 +98,11 @@ public class UserController {
                 user.setPassword(encoder.encode(newUser.getPassword()));
             }
             userService.save(user);
-            redirectAttrs.addFlashAttribute("success", messageSource.getMessage("user.update.success", null, Locale.ENGLISH));
+            redirectAttrs.addFlashAttribute("success", messageSource.getMessage("user.update.success",
+                    null, Locale.ENGLISH));
+            if(referrer.endsWith("/user")){
+                session.setAttribute("user", user);
+            }
         }
         return "redirect:"+ referrer;
     }
@@ -107,9 +116,9 @@ public class UserController {
     public String changePassword(@Valid @ModelAttribute("passwordChangeForm") PasswordChangeForm passwordChangeForm,
                                  BindingResult bindingResult, RedirectAttributes redirectAttributes){
         if(!bindingResult.hasFieldErrors()){
-            User currentUser = userService.getCurrent();
-            currentUser.setPassword(encoder.encode(passwordChangeForm.getNewPassword()));
-            userService.save(currentUser);
+            User user = userService.getCurrent();
+            user.setPassword(encoder.encode(passwordChangeForm.getNewPassword()));
+            userService.save(user);
             redirectAttributes.addFlashAttribute("success",
                     messageSource.getMessage("password.change.success", null, Locale.ENGLISH));
             return "redirect:/user/password";

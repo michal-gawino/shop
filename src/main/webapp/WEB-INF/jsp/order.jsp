@@ -5,6 +5,7 @@
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form" %>
 
 
+<sec:authentication var="user" property="principal.user" />
 
 <t:page>
     <div class="container">
@@ -13,11 +14,11 @@
                 <div class="form-row">
                     <div class="col-md-4 mb-3">
                         <label for="validationDefault01">First name</label>
-                        <input type="text" class="form-control" value="${sessionScope.user.name}" disabled>
+                        <input type="text" class="form-control" value="${user.name}" disabled>
                     </div>
                     <div class="col-md-4 mb-3">
                         <label for="validationDefault02">Surname</label>
-                        <input type="text" class="form-control" value="${sessionScope.user.surname}" disabled>
+                        <input type="text" class="form-control" value="${user.surname}" disabled>
                     </div>
                     <div class="col-md-4 mb-3">
                         <label for="validationDefault02">Country</label>

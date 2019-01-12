@@ -157,7 +157,7 @@
          aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
-                <form:form method="PUT" id="editForm">
+                <form:form method="PUT" id="editForm" modelAttribute="newUser">
                     <div class="modal-header">
                         <h5 class="modal-title" id="exampleModalLongTitle">Edit user</h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">

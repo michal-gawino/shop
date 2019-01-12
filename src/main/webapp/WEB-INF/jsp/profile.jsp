@@ -4,6 +4,8 @@
 <%@taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
+<sec:authentication var="user" property="principal.user" />
+
 <t:page>
     <div class="container">
         <div class="row justify-content-center align-items-center">
@@ -11,14 +13,14 @@
                 <div class="form-row">
                     <div class="form-group">
                         <label>Name</label>
-                        <input type="text" class="form-control" name="name" pattern="^\S*$"
+                        <input type="text" class="form-control" name="name" value="${user.name}" pattern="^\S*$"
                         title="Name can't contain whitespaces">
                     </div>
                 </div>
                 <div class="form-row">
                     <div class="form-group">
                         <label>Surname</label>
-                        <input type="text" class="form-control" name="surname" pattern="^\S*$"
+                        <input type="text" class="form-control" name="surname" value="${user.surname}" pattern="^\S*$"
                         title="Surname can't contain whitespaces">
                     </div>
                 </div>

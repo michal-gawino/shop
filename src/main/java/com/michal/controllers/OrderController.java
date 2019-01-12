@@ -18,7 +18,7 @@ import java.util.List;
 
 @Controller
 @RequestMapping(value = "/order")
-@SessionAttributes(names = {"cart", "user"})
+@SessionAttributes({"cart", "user"})
 public class OrderController {
 
     @Autowired

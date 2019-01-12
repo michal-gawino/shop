@@ -38,7 +38,7 @@ class RegisterController {
     }
 
     @PostMapping
-    public String registerUser(@Valid User user, BindingResult bindingResult, Model model, RedirectAttributes redirectAttrs){
+    public String registerUser(@Valid User user, BindingResult bindingResult, RedirectAttributes redirectAttrs){
         if(bindingResult.hasFieldErrors()){
             return "register";
         }
