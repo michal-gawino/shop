@@ -19,7 +19,6 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.transaction.annotation.Transactional;
 import java.util.Optional;
 
-import static org.hamcrest.Matchers.isA;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.user;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
@@ -46,8 +45,7 @@ class UserControllerTest {
     void profileViewTest() throws Exception {
         mockMvc.perform(get("/user"))
                 .andExpect(status().isOk())
-                .andExpect(view().name("profile"))
-                .andExpect(model().attribute("user", isA(User.class)));
+                .andExpect(view().name("profile"));
     }
 
     @Test
@@ -93,6 +91,7 @@ class UserControllerTest {
             u = userService.createUser(user);
         }
         mockMvc.perform(put(String.format("/user/%d", u.getId()))
+                .header("referer", "/user")
                 .param("name", newUser.getName())
                 .param("login", newUser.getLogin())
                 .param("surname", newUser.getSurname()));
