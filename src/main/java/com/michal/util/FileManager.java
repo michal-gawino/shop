@@ -4,12 +4,12 @@ import com.michal.entities.Category;
 import com.michal.entities.Product;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
-import sun.misc.BASE64Encoder;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.Base64;
 
 @Component
 public class FileManager {
@@ -41,9 +41,9 @@ public class FileManager {
     }
 
     public String getBase64Image(Path path) throws IOException {
-        BASE64Encoder encoder = new BASE64Encoder();
+        Base64.Encoder encoder = Base64.getEncoder();
         byte[] file = Files.readAllBytes(path);
-        return encoder.encode(file);
+        return encoder.encodeToString(file);
     }
 
     public Path getCategoryImagePath(Category c){
